@@ -280,11 +280,21 @@ namespace Gauntlet {
       total_xp: totalXp,
       xp_per_hour: xpPerHour,
       death_reason: deathReason,
+      final_current_hp: clamp(currentHp, 0, stats.Health),
+      final_max_hp: stats.Health,
+      final_melee: stats.Melee,
+      final_ranged: stats.Ranged,
+      final_magic: stats.Magic,
+      final_defense: stats.Defense,
     };
   }
 
   export function emptyAggregate(): Aggregate {
-    return {runs:0, sum_cleared:0, sum_xp_run:0, sum_xp_hour:0, sum_duration:0, hp_deaths:0, overruns:0, distribution:{}};
+    return {
+      runs:0, sum_cleared:0, sum_xp_run:0, sum_xp_hour:0, sum_duration:0,
+      sum_final_current_hp:0, sum_final_max_hp:0, sum_final_melee:0, sum_final_ranged:0, sum_final_magic:0, sum_final_defense:0,
+      hp_deaths:0, overruns:0, distribution:{},
+    };
   }
 
   export function addRun(agg: Aggregate, result: RunResult): void {
@@ -293,6 +303,12 @@ namespace Gauntlet {
     agg.sum_xp_run += result.total_xp;
     agg.sum_xp_hour += result.xp_per_hour;
     agg.sum_duration += result.death_time;
+    agg.sum_final_current_hp += result.final_current_hp;
+    agg.sum_final_max_hp += result.final_max_hp;
+    agg.sum_final_melee += result.final_melee;
+    agg.sum_final_ranged += result.final_ranged;
+    agg.sum_final_magic += result.final_magic;
+    agg.sum_final_defense += result.final_defense;
     agg.hp_deaths += result.death_reason === "hp" ? 1 : 0;
     agg.overruns += result.death_reason === "overrun" ? 1 : 0;
     agg.distribution[result.highest_cleared] = (agg.distribution[result.highest_cleared] || 0) + 1;
@@ -304,6 +320,12 @@ namespace Gauntlet {
     dst.sum_xp_run += src.sum_xp_run;
     dst.sum_xp_hour += src.sum_xp_hour;
     dst.sum_duration += src.sum_duration;
+    dst.sum_final_current_hp += src.sum_final_current_hp;
+    dst.sum_final_max_hp += src.sum_final_max_hp;
+    dst.sum_final_melee += src.sum_final_melee;
+    dst.sum_final_ranged += src.sum_final_ranged;
+    dst.sum_final_magic += src.sum_final_magic;
+    dst.sum_final_defense += src.sum_final_defense;
     dst.hp_deaths += src.hp_deaths;
     dst.overruns += src.overruns;
     for (const [w, count] of Object.entries(src.distribution)) {
@@ -344,6 +366,12 @@ namespace Gauntlet {
       mean_xp_run: agg.sum_xp_run / n,
       mean_xp_hour: agg.sum_xp_hour / n,
       mean_duration: agg.sum_duration / n,
+      mean_final_current_hp: agg.sum_final_current_hp / n,
+      mean_final_max_hp: agg.sum_final_max_hp / n,
+      mean_final_melee: agg.sum_final_melee / n,
+      mean_final_ranged: agg.sum_final_ranged / n,
+      mean_final_magic: agg.sum_final_magic / n,
+      mean_final_defense: agg.sum_final_defense / n,
       hp_death_rate: agg.hp_deaths / n,
       overrun_rate: agg.overruns / n,
       distribution: {...agg.distribution},

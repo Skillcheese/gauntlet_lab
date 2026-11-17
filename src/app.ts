@@ -519,7 +519,9 @@ namespace GauntletWeb {
   function updateResultDetail(pre:HTMLElement,res:Gauntlet.CandidateResult,snap:Gauntlet.AppState):void{
     const m=res.metrics;const lines:string[]=["ROLE ASSIGNMENT","---------------"];res.roles.forEach((role,i)=>lines.push(`Slot ${String(i+1).padEnd(3)} ${snap.party[i].profile_name.padEnd(18)}  ${role}`));
     const metric=(label:string,val:string)=>`${(label+":").padEnd(22)}${val}`;lines.push("","SUMMARY","-------",metric("Runs",m.runs.toLocaleString()),metric("Mean cleared",m.mean_cleared.toFixed(4)),metric("Median cleared",String(m.median_cleared)),metric("Central 80%",`${m.p10_cleared} – ${m.p90_cleared}`),metric(`P(clear ${snap.optimizer.target_wave}+)`,pct(m.target_probability)),metric("Mean XP / run",fmt(m.mean_xp_run,1)),metric("Mean XP / hour",fmt(m.mean_xp_hour,1)),metric("Mean run duration",`${fmt(m.mean_duration,1)} s`),metric("HP-death rate",pct(m.hp_death_rate)),metric("Overrun rate",pct(m.overrun_rate)),"","WAVE DISTRIBUTION","-----------------");
-    const waves=Object.keys(m.distribution).map(Number).sort((a,b)=>a-b);for(const w of waves){const count=m.distribution[w],bar="█".repeat(Math.min(50,Math.round(50*count/m.runs)));lines.push(`${String(w).padStart(3)}: ${(100*count/m.runs).toFixed(2).padStart(6)}%  ${bar}`);}pre.textContent=lines.join("\n");
+    const waves=Object.keys(m.distribution).map(Number).sort((a,b)=>a-b);for(const w of waves){const count=m.distribution[w],bar="█".repeat(Math.min(50,Math.round(50*count/m.runs)));lines.push(`${String(w).padStart(3)}: ${(100*count/m.runs).toFixed(2).padStart(6)}%  ${bar}`);}
+    lines.push("","FORTRESS STATS","--------------",metric("HP (current / max)",`${fmt(m.mean_final_current_hp,1)} / ${fmt(m.mean_final_max_hp,1)}`),metric("Melee force",fmt(m.mean_final_melee,1)),metric("Ranged force",fmt(m.mean_final_ranged,1)),metric("Magic force",fmt(m.mean_final_magic,1)),metric("Defense",fmt(m.mean_final_defense,1)));
+    pre.textContent=lines.join("\n");
   }
   function closeResultTab(id:string):void{
     const tabs=Array.from(document.querySelectorAll<HTMLElement>(".tab-item"));

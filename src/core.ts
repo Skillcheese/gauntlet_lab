@@ -104,6 +104,12 @@ namespace Gauntlet {
     total_xp: number;
     xp_per_hour: number;
     death_reason: string;
+    final_current_hp: number;
+    final_max_hp: number;
+    final_melee: number;
+    final_ranged: number;
+    final_magic: number;
+    final_defense: number;
   }
 
   export interface Aggregate {
@@ -112,6 +118,12 @@ namespace Gauntlet {
     sum_xp_run: number;
     sum_xp_hour: number;
     sum_duration: number;
+    sum_final_current_hp: number;
+    sum_final_max_hp: number;
+    sum_final_melee: number;
+    sum_final_ranged: number;
+    sum_final_magic: number;
+    sum_final_defense: number;
     hp_deaths: number;
     overruns: number;
     distribution: Record<number, number>;
@@ -126,6 +138,12 @@ namespace Gauntlet {
     mean_xp_run: number;
     mean_xp_hour: number;
     mean_duration: number;
+    mean_final_current_hp: number;
+    mean_final_max_hp: number;
+    mean_final_melee: number;
+    mean_final_ranged: number;
+    mean_final_magic: number;
+    mean_final_defense: number;
     hp_death_rate: number;
     overrun_rate: number;
     distribution: Record<number, number>;

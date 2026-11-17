@@ -8,7 +8,8 @@
     "test:reference": "tsc -p tsconfig.test.json && node tests/engine_probe.js",
     "test:optimizer": "tsc -p tsconfig.optprobe.json && node tests/optimizer_probe.js",
     "test:stats": "tsc -p tsconfig.stats.json && node tests/stat_compare.js",
-    "test:material-save": "tsc -p tsconfig.material.json && node tests/material_save_probe.js"
+    "test:material-save": "tsc -p tsconfig.material.json && node tests/material_save_probe.js",
+    "test:fortress-stats": "tsc -p tsconfig.fortress-stats.json && node tests/fortress_stats_probe.js"
   },
   "devDependencies": {
     "typescript": "^5.8.3"
