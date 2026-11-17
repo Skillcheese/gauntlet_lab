@@ -1,5 +1,5 @@
 {
-  "config_version": 3,
+  "config_version": 4,
   "defaults": {
     "profiles": {
       "Me": {
@@ -13,7 +13,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
@@ -21,7 +22,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
@@ -29,7 +31,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
@@ -37,7 +40,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
@@ -45,7 +49,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           }
         }
       },
@@ -60,7 +65,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
@@ -68,7 +74,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
@@ -76,7 +83,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
@@ -84,7 +92,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
@@ -92,7 +101,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           }
         }
       },
@@ -107,7 +117,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Melee": {
             "tier": 0,
@@ -115,7 +126,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Ranged": {
             "tier": 0,
@@ -123,7 +135,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Magic": {
             "tier": 0,
@@ -131,7 +144,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Defense": {
             "tier": 0,
@@ -139,7 +153,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           }
         }
       },
@@ -154,7 +169,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Melee": {
             "tier": 1,
@@ -162,7 +178,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Ranged": {
             "tier": 1,
@@ -170,7 +187,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Magic": {
             "tier": 1,
@@ -178,7 +196,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Defense": {
             "tier": 1,
@@ -186,7 +205,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           }
         }
       },
@@ -201,7 +221,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Melee": {
             "tier": 2,
@@ -209,7 +230,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Ranged": {
             "tier": 2,
@@ -217,7 +239,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Magic": {
             "tier": 2,
@@ -225,7 +248,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Defense": {
             "tier": 2,
@@ -233,7 +257,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           }
         }
       },
@@ -248,7 +273,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Melee": {
             "tier": 3,
@@ -256,7 +282,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Ranged": {
             "tier": 3,
@@ -264,7 +291,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Magic": {
             "tier": 3,
@@ -272,7 +300,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Defense": {
             "tier": 3,
@@ -280,7 +309,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           }
         }
       },
@@ -295,7 +325,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Melee": {
             "tier": 4,
@@ -303,7 +334,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Ranged": {
             "tier": 4,
@@ -311,7 +343,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Magic": {
             "tier": 4,
@@ -319,7 +352,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Defense": {
             "tier": 4,
@@ -327,7 +361,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           }
         }
       },
@@ -342,7 +377,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Melee": {
             "tier": 5,
@@ -350,7 +386,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Ranged": {
             "tier": 5,
@@ -358,7 +395,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Magic": {
             "tier": 5,
@@ -366,7 +404,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Defense": {
             "tier": 5,
@@ -374,7 +413,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           }
         }
       },
@@ -389,7 +429,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Melee": {
             "tier": 6,
@@ -397,7 +438,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Ranged": {
             "tier": 6,
@@ -405,7 +447,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Magic": {
             "tier": 6,
@@ -413,7 +456,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Defense": {
             "tier": 6,
@@ -421,7 +465,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           }
         }
       },
@@ -436,7 +481,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Melee": {
             "tier": 7,
@@ -444,7 +490,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Ranged": {
             "tier": 7,
@@ -452,7 +499,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Magic": {
             "tier": 7,
@@ -460,7 +508,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Defense": {
             "tier": 7,
@@ -468,7 +517,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           }
         }
       },
@@ -483,7 +533,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Melee": {
             "tier": 8,
@@ -491,7 +542,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Ranged": {
             "tier": 8,
@@ -499,7 +551,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Magic": {
             "tier": 8,
@@ -507,7 +560,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Defense": {
             "tier": 8,
@@ -515,7 +569,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           }
         }
       },
@@ -530,7 +585,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Melee": {
             "tier": 9,
@@ -538,7 +594,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Ranged": {
             "tier": 9,
@@ -546,7 +603,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Magic": {
             "tier": 9,
@@ -554,7 +612,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Defense": {
             "tier": 9,
@@ -562,7 +621,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           }
         }
       },
@@ -577,7 +637,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Melee": {
             "tier": 10,
@@ -585,7 +646,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Ranged": {
             "tier": 10,
@@ -593,7 +655,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Magic": {
             "tier": 10,
@@ -601,7 +664,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Defense": {
             "tier": 10,
@@ -609,7 +673,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           }
         }
       },
@@ -624,7 +689,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Melee": {
             "tier": 10,
@@ -632,7 +698,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Ranged": {
             "tier": 10,
@@ -640,7 +707,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Magic": {
             "tier": 10,
@@ -648,7 +716,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Defense": {
             "tier": 10,
@@ -656,7 +725,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           }
         }
       }
@@ -728,7 +798,8 @@
         30,
         40
       ],
-      "max_wave": 160
+      "max_wave": 160,
+      "raw_material_value_divisor": 3
     },
     "optimizer": {
       "objective": "XP / hour",
@@ -781,7 +852,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
@@ -789,7 +861,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
@@ -797,7 +870,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
@@ -805,7 +879,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
@@ -813,7 +888,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           }
         }
       },
@@ -828,7 +904,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
@@ -836,7 +913,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
@@ -844,7 +922,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
@@ -852,7 +931,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
@@ -860,7 +940,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0.0
           }
         }
       },
@@ -875,7 +956,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Melee": {
             "tier": 0,
@@ -883,7 +965,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Ranged": {
             "tier": 0,
@@ -891,7 +974,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Magic": {
             "tier": 0,
@@ -899,7 +983,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           },
           "Defense": {
             "tier": 0,
@@ -907,7 +992,8 @@
             "gather_success": 0.75,
             "double_gather": 0.0,
             "process_time": 1.0,
-            "process_success": 0.75
+            "process_success": 0.75,
+            "material_save": 0
           }
         }
       },
@@ -922,7 +1008,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Melee": {
             "tier": 1,
@@ -930,7 +1017,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Ranged": {
             "tier": 1,
@@ -938,7 +1026,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Magic": {
             "tier": 1,
@@ -946,7 +1035,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           },
           "Defense": {
             "tier": 1,
@@ -954,7 +1044,8 @@
             "gather_success": 0.775,
             "double_gather": 0.03,
             "process_time": 0.965,
-            "process_success": 0.775
+            "process_success": 0.775,
+            "material_save": 0.025
           }
         }
       },
@@ -969,7 +1060,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Melee": {
             "tier": 2,
@@ -977,7 +1069,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Ranged": {
             "tier": 2,
@@ -985,7 +1078,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Magic": {
             "tier": 2,
@@ -993,7 +1087,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           },
           "Defense": {
             "tier": 2,
@@ -1001,7 +1096,8 @@
             "gather_success": 0.8,
             "double_gather": 0.06,
             "process_time": 0.93,
-            "process_success": 0.8
+            "process_success": 0.8,
+            "material_save": 0.05
           }
         }
       },
@@ -1016,7 +1112,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Melee": {
             "tier": 3,
@@ -1024,7 +1121,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Ranged": {
             "tier": 3,
@@ -1032,7 +1130,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Magic": {
             "tier": 3,
@@ -1040,7 +1139,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           },
           "Defense": {
             "tier": 3,
@@ -1048,7 +1148,8 @@
             "gather_success": 0.825,
             "double_gather": 0.09,
             "process_time": 0.895,
-            "process_success": 0.825
+            "process_success": 0.825,
+            "material_save": 0.075
           }
         }
       },
@@ -1063,7 +1164,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Melee": {
             "tier": 4,
@@ -1071,7 +1173,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Ranged": {
             "tier": 4,
@@ -1079,7 +1182,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Magic": {
             "tier": 4,
@@ -1087,7 +1191,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           },
           "Defense": {
             "tier": 4,
@@ -1095,7 +1200,8 @@
             "gather_success": 0.85,
             "double_gather": 0.12,
             "process_time": 0.86,
-            "process_success": 0.85
+            "process_success": 0.85,
+            "material_save": 0.1
           }
         }
       },
@@ -1110,7 +1216,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Melee": {
             "tier": 5,
@@ -1118,7 +1225,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Ranged": {
             "tier": 5,
@@ -1126,7 +1234,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Magic": {
             "tier": 5,
@@ -1134,7 +1243,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           },
           "Defense": {
             "tier": 5,
@@ -1142,7 +1252,8 @@
             "gather_success": 0.875,
             "double_gather": 0.15,
             "process_time": 0.825,
-            "process_success": 0.875
+            "process_success": 0.875,
+            "material_save": 0.125
           }
         }
       },
@@ -1157,7 +1268,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Melee": {
             "tier": 6,
@@ -1165,7 +1277,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Ranged": {
             "tier": 6,
@@ -1173,7 +1286,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Magic": {
             "tier": 6,
@@ -1181,7 +1295,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           },
           "Defense": {
             "tier": 6,
@@ -1189,7 +1304,8 @@
             "gather_success": 0.9,
             "double_gather": 0.18,
             "process_time": 0.79,
-            "process_success": 0.9
+            "process_success": 0.9,
+            "material_save": 0.15
           }
         }
       },
@@ -1204,7 +1320,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Melee": {
             "tier": 7,
@@ -1212,7 +1329,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Ranged": {
             "tier": 7,
@@ -1220,7 +1338,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Magic": {
             "tier": 7,
@@ -1228,7 +1347,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           },
           "Defense": {
             "tier": 7,
@@ -1236,7 +1356,8 @@
             "gather_success": 0.925,
             "double_gather": 0.21,
             "process_time": 0.755,
-            "process_success": 0.925
+            "process_success": 0.925,
+            "material_save": 0.175
           }
         }
       },
@@ -1251,7 +1372,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Melee": {
             "tier": 8,
@@ -1259,7 +1381,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Ranged": {
             "tier": 8,
@@ -1267,7 +1390,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Magic": {
             "tier": 8,
@@ -1275,7 +1399,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           },
           "Defense": {
             "tier": 8,
@@ -1283,7 +1408,8 @@
             "gather_success": 0.95,
             "double_gather": 0.24,
             "process_time": 0.72,
-            "process_success": 0.95
+            "process_success": 0.95,
+            "material_save": 0.2
           }
         }
       },
@@ -1298,7 +1424,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Melee": {
             "tier": 9,
@@ -1306,7 +1433,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Ranged": {
             "tier": 9,
@@ -1314,7 +1442,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Magic": {
             "tier": 9,
@@ -1322,7 +1451,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           },
           "Defense": {
             "tier": 9,
@@ -1330,7 +1460,8 @@
             "gather_success": 0.975,
             "double_gather": 0.27,
             "process_time": 0.685,
-            "process_success": 0.975
+            "process_success": 0.975,
+            "material_save": 0.225
           }
         }
       },
@@ -1345,7 +1476,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Melee": {
             "tier": 10,
@@ -1353,7 +1485,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Ranged": {
             "tier": 10,
@@ -1361,7 +1494,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Magic": {
             "tier": 10,
@@ -1369,7 +1503,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           },
           "Defense": {
             "tier": 10,
@@ -1377,7 +1512,8 @@
             "gather_success": 1.0,
             "double_gather": 0.3,
             "process_time": 0.65,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.25
           }
         }
       },
@@ -1392,7 +1528,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Melee": {
             "tier": 10,
@@ -1400,7 +1537,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Ranged": {
             "tier": 10,
@@ -1408,7 +1546,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Magic": {
             "tier": 10,
@@ -1416,7 +1555,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           },
           "Defense": {
             "tier": 10,
@@ -1424,7 +1564,8 @@
             "gather_success": 1.0,
             "double_gather": 0.5,
             "process_time": 0.2,
-            "process_success": 1.0
+            "process_success": 1.0,
+            "material_save": 0.3
           }
         }
       }
@@ -1496,7 +1637,8 @@
         30,
         40
       ],
-      "max_wave": 160
+      "max_wave": 160,
+      "raw_material_value_divisor": 3
     },
     "optimizer": {
       "objective": "XP / hour",

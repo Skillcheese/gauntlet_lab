@@ -51,6 +51,13 @@ namespace GauntletWeb {
       catch { state = Gauntlet.deepClone(factoryState); }
     } else state = Gauntlet.deepClone(factoryState);
 
+    // Fill game-model fields introduced in newer config schemas without
+    // overwriting existing user-entered values. Missing per-role material-save
+    // values are resolved lazily from that row's tier instead of migrated here.
+    if (!Number.isFinite(state.game.raw_material_value_divisor)) {
+      state.game.raw_material_value_divisor = factoryState.game.raw_material_value_divisor ?? 3;
+    }
+
     // Named run-size presets are application defaults, not user-authored data.
     // Keep them current when the app ships updated preset definitions.
     state.settings.run_presets = Gauntlet.deepClone(factoryState.settings.run_presets);
@@ -200,19 +207,19 @@ namespace GauntletWeb {
     const bagInput=inputRow(top,"Backpack size",String(profile.backpack_size),"number",readonly);
 
     const table=el("table","stats-table");fields.appendChild(table);
-    const head=el("thead");const hr=el("tr");for(const h of ["Role","Tier","Gather sec","Gather success %","Double gather %","Process sec","Process success %"]){hr.appendChild(el("th","",h));}head.appendChild(hr);table.appendChild(head);
+    const head=el("thead");const hr=el("tr");for(const h of ["Role","Tier","Gather sec","Gather success %","Double gather %","Process sec","Process success %","Material save %"]){hr.appendChild(el("th","",h));}head.appendChild(hr);table.appendChild(head);
     const body=el("tbody");table.appendChild(body);
     const roleInputs=new Map<Gauntlet.Role,HTMLInputElement[]>();
     for(const role of Gauntlet.ROLES){
       const rs=profile.role_stats[role];const tr=el("tr");tr.appendChild(el("td","role-name",role));
-      const vals=[String(rs.tier),String(rs.gather_time),String(rs.gather_success*100),String(rs.double_gather*100),String(rs.process_time),String(rs.process_success*100)];
+      const vals=[String(rs.tier),String(rs.gather_time),String(rs.gather_success*100),String(rs.double_gather*100),String(rs.process_time),String(rs.process_success*100),String(Gauntlet.materialSaveChance(rs)*100)];
       const arr:HTMLInputElement[]=[];
       vals.forEach((v,i)=>{const td=el("td");const inp=el("input","input compact") as HTMLInputElement;inp.type="number";inp.value=v;inp.disabled=readonly;inp.step=i===0?"1":"any";td.appendChild(inp);tr.appendChild(td);arr.push(inp);});body.appendChild(tr);roleInputs.set(role,arr);
     }
     const footer=el("div","helper-actions");fields.appendChild(footer);
     const helper=readonly
       ? el("p","muted","Clone is synchronized automatically from Me. All stats match Me except movement speed, which is 90% of Me and rounded to one decimal place.")
-      : el("p","muted","Success and double-gather fields are percentages in the UI. Changes are saved in this browser when applied.");
+      : el("p","muted","Success, double-gather, and material-save fields are percentages in the UI. Changes are saved in this browser when applied.");
     footer.appendChild(helper);
     const actions=el("div","actions");footer.appendChild(actions);
     const apply=el("button","primary","Apply profile changes");apply.disabled=readonly;actions.appendChild(apply);
@@ -220,7 +227,7 @@ namespace GauntletWeb {
       try{
         const old=selectedProfile;let newName=nameInput.value.trim();if(!newName)throw new Error("Name cannot be empty");if(newName!==old&&state.profiles[newName])throw new Error("A profile with that name already exists");
         const p=Gauntlet.deepClone(profile);p.name=newName;p.movement_speed=Math.round(numValue(speedInput,p.movement_speed)*10)/10;p.backpack_size=Math.max(1,intValue(bagInput,p.backpack_size));
-        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.trunc(numValue(a[0]))),gather_time:numValue(a[1]),gather_success:Gauntlet.clamp(numValue(a[2])/100,0,1),double_gather:Gauntlet.clamp(numValue(a[3])/100,0,1),process_time:numValue(a[4]),process_success:Gauntlet.clamp(numValue(a[5])/100,0,1)};}
+        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.trunc(numValue(a[0]))),gather_time:numValue(a[1]),gather_success:Gauntlet.clamp(numValue(a[2])/100,0,1),double_gather:Gauntlet.clamp(numValue(a[3])/100,0,1),process_time:numValue(a[4]),process_success:Gauntlet.clamp(numValue(a[5])/100,0,1),material_save:Gauntlet.clamp(numValue(a[6])/100,0,1)};}
         if(newName!==old){delete state.profiles[old];for(const slot of state.party)if(slot.profile_name===old)slot.profile_name=newName;}
         state.profiles[newName]=p;selectedProfile=newName;Gauntlet.cloneFromMe(state);saveStateNow();renderProfiles();renderExperiment();setStatus(`Applied and saved profile: ${newName}`);
       }catch(err){alert(err instanceof Error?err.message:String(err));}
@@ -333,7 +340,7 @@ namespace GauntletWeb {
 
         <section id="help-profiles">
           <h2>Profiles</h2>
-          <p>A profile describes one player or stand-in. Each profile can have its own movement speed, backpack size, role tiers, gather/process times, success chances, and per-role double-gather chance.</p>
+          <p>A profile describes one player or stand-in. Each profile can have its own movement speed, backpack size, role tiers, gather/process times, success chances, per-role double-gather chance, and per-role material-save chance.</p>
           <p>Generic T0 through T11 profiles are included as convenient starting points. The built-in <strong>Clone</strong> automatically follows <strong>Me</strong>, except its movement speed is 90% of Me's speed.</p>
         </section>
 
@@ -354,7 +361,7 @@ namespace GauntletWeb {
           <h2>How the simulation works</h2>
           <h3>Resource loops</h3>
           <p>Players walk from the fortress to a gathering node, gather until the backpack is full, walk to processing, attempt to process each raw resource once, then return to the fortress and deposit the processed resources into their assigned army stat.</p>
-          <p>Gather failures consume time but produce nothing. Successful double gathers produce two resources when backpack space allows. Failed processing attempts lose the raw resource.</p>
+          <p>Gather failures consume time but produce nothing. Successful double gathers produce two resources when backpack space allows. Failed processing attempts lose the raw resource. After a successful processing action, Material save % can also preserve the raw material. Saved raw materials are carried back with the processed items and contribute their combined raw value when deposited; that raw contribution is floored only after all saved materials are summed.</p>
 
           <h3>Waves and combat</h3>
           <p>The raid has a two-minute preparation period before Wave 1. After that, waves arrive on a fixed global 20-second clock. Combat occurs every 1.5 seconds, with the first hit 1.5 seconds after a wave arrives. Killing a wave does not reset the global wave clock.</p>
@@ -402,7 +409,7 @@ namespace GauntletWeb {
     panel.appendChild(el("p","muted","These are model assumptions, not hidden constants. Change them freely for sensitivity tests."));
     const form=el("div","form-grid game-form");panel.appendChild(form);
     const fields:[keyof Gauntlet.GameConfig,string][]=[
-      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["max_wave","Simulation wave ceiling"]
+      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["raw_material_value_divisor","Raw material value divisor"],["max_wave","Simulation wave ceiling"]
     ];
     const inputs=new Map<keyof Gauntlet.GameConfig,HTMLInputElement>();
     for(const [key,label] of fields){const inp=inputRow(form,label,String(state.game[key] as any),"number");inputs.set(key,inp);}

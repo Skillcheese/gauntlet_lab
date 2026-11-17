@@ -40,6 +40,11 @@ namespace Gauntlet {
     return cfg.material_values[tier];
   }
 
+  export function savedRawContribution(savedRaw: number, processedMaterialValue: number, cfg: GameConfig): number {
+    const divisor = Math.max(1e-9, cfg.raw_material_value_divisor ?? 3);
+    return Math.floor(Math.max(0, Math.trunc(savedRaw)) * processedMaterialValue / divisor);
+  }
+
   export function generateOneLoop(
     profile: PlayerProfile,
     role: Role,
@@ -54,6 +59,7 @@ namespace Gauntlet {
     const doubleP = clamp(rs.double_gather, 0, 1);
     const gatherP = clamp(rs.gather_success, 0, 1);
     const processP = clamp(rs.process_success, 0, 1);
+    const saveP = materialSaveChance(rs);
     const gatherTime = Math.max(1e-6, rs.gather_time);
     const processTime = Math.max(1e-6, rs.process_time);
     const xpEvents: ActionXPEvent[] = [];
@@ -75,16 +81,25 @@ namespace Gauntlet {
 
     t += cfg.gather_process_distance / speed;
     let processed = 0;
+    let savedRaw = 0;
     for (let i = 0; i < raw; i++) {
       t += processTime;
       const success = rng.random() < processP;
       if (captureXp) xpEvents.push({time: t, success});
-      if (success) processed += 1;
+      if (success) {
+        processed += 1;
+        // Material saving is only checked after a successful processing action.
+        // Saved raw materials are carried to the fortress for partial raw value;
+        // they are not processed again during the same loop.
+        if (saveP > 0 && rng.random() < saveP) savedRaw += 1;
+      }
     }
 
     t += cfg.fortress_node_distance / speed;
+    const processedValue = materialValue(profile, role, cfg);
+    const amount = processed * processedValue + savedRawContribution(savedRaw, processedValue, cfg);
     return {
-      deposit: {time: t, role, amount: processed * materialValue(profile, role, cfg)},
+      deposit: {time: t, role, amount},
       xpEvents,
     };
   }
