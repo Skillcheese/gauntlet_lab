@@ -60,8 +60,9 @@ namespace Gauntlet {
     const gatherP = clamp(rs.gather_success, 0, 1);
     const processP = clamp(rs.process_success, 0, 1);
     const saveP = materialSaveChance(rs);
-    const gatherTime = Math.max(1e-6, rs.gather_time);
-    const processTime = Math.max(1e-6, rs.process_time);
+    const fortressSpeedup = Math.max(1e-9, cfg.fortress_speedup ?? 10);
+    const gatherTime = Math.max(1e-6, rs.gather_time / fortressSpeedup);
+    const processTime = Math.max(1e-6, rs.process_time / fortressSpeedup);
     const xpEvents: ActionXPEvent[] = [];
     let t = startTime + cfg.fortress_node_distance / speed;
 

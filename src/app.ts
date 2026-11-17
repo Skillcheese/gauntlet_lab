@@ -75,13 +75,35 @@ namespace GauntletWeb {
     if (!Number.isFinite(state.game.raw_material_value_divisor)) {
       state.game.raw_material_value_divisor = factoryState.game.raw_material_value_divisor ?? 3;
     }
-    const legacyGame = state.game as Gauntlet.GameConfig & {gather_time_min?: number; gather_time_max?: number};
+    const legacyGame = state.game as Gauntlet.GameConfig & {gather_time_min?: number; gather_time_max?: number; fortress_speedup?: number};
     if (!Number.isFinite(state.game.action_time_min)) {
-      state.game.action_time_min = Number.isFinite(legacyGame.gather_time_min) ? legacyGame.gather_time_min! : (factoryState.game.action_time_min ?? 0.2);
+      state.game.action_time_min = Number.isFinite(legacyGame.gather_time_min) ? legacyGame.gather_time_min! : (factoryState.game.action_time_min ?? 2.0);
     }
     if (!Number.isFinite(state.game.action_time_max)) {
-      state.game.action_time_max = Number.isFinite(legacyGame.gather_time_max) ? legacyGame.gather_time_max! : (factoryState.game.action_time_max ?? 1.0);
+      state.game.action_time_max = Number.isFinite(legacyGame.gather_time_max) ? legacyGame.gather_time_max! : (factoryState.game.action_time_max ?? 10.0);
     }
+
+    // Profiles saved before fortress_speedup existed stored the already-sped-up
+    // fortress action times (0.2–1.0s). Convert those once to the normal-world
+    // times shown in the UI. The missing field is the migration marker, so this
+    // cannot repeat after the converted state is saved.
+    const needsActionTimeScaleMigration = !Number.isFinite(legacyGame.fortress_speedup);
+    const legacyActionTimeScale = 10;
+    const defaultFortressSpeedup = factoryState.game.fortress_speedup ?? 10;
+    if (needsActionTimeScaleMigration) {
+      for (const profile of Object.values(state.profiles)) {
+        for (const role of Gauntlet.ROLES) {
+          const rs = profile.role_stats[role];
+          if (Number.isFinite(rs.gather_time) && rs.gather_time <= 1) rs.gather_time = roundDecimal(rs.gather_time * legacyActionTimeScale, 3);
+          if (Number.isFinite(rs.process_time) && rs.process_time <= 1) rs.process_time = roundDecimal(rs.process_time * legacyActionTimeScale, 3);
+        }
+      }
+      if (Number.isFinite(state.game.action_time_min) && state.game.action_time_min <= 1) state.game.action_time_min = roundDecimal(state.game.action_time_min * legacyActionTimeScale, 3);
+      if (Number.isFinite(state.game.action_time_max) && state.game.action_time_max <= 1) state.game.action_time_max = roundDecimal(state.game.action_time_max * legacyActionTimeScale, 3);
+    }
+    state.game.fortress_speedup = Number.isFinite(legacyGame.fortress_speedup) && legacyGame.fortress_speedup! > 0
+      ? legacyGame.fortress_speedup!
+      : defaultFortressSpeedup;
     delete legacyGame.gather_time_min;
     delete legacyGame.gather_time_max;
 
@@ -302,7 +324,7 @@ namespace GauntletWeb {
       const arr:HTMLInputElement[]=[];
       vals.forEach((v,i)=>{const td=el("td");const inp=el("input","input compact") as HTMLInputElement;inp.type="number";inp.value=v;inp.disabled=readonly;
         if(i===0){inp.step="1";inp.min="0";inp.max=String(maxTier);}
-        else if(i===1||i===4){inp.step="0.001";inp.min=String(actionMin);inp.max=String(actionMax);inp.addEventListener("wheel",e=>{if(document.activeElement!==inp)return;e.preventDefault();if(e.deltaY<0)inp.stepUp();else if(e.deltaY>0)inp.stepDown();},{passive:false});}
+        else if(i===1||i===4){inp.step="0.01";inp.min=String(actionMin);inp.max=String(actionMax);inp.addEventListener("wheel",e=>{if(document.activeElement!==inp)return;e.preventDefault();if(e.deltaY<0)inp.stepUp();else if(e.deltaY>0)inp.stepDown();},{passive:false});}
         else if(i===2||i===3||i===5||i===6){inp.step="any";inp.min="0";inp.max="100";}
         else inp.step="any";
         td.appendChild(inp);tr.appendChild(td);arr.push(inp);});body.appendChild(tr);roleInputs.set(role,arr);
@@ -310,7 +332,7 @@ namespace GauntletWeb {
     const footer=el("div","helper-actions");fields.appendChild(footer);
     const helper=readonly
       ? el("p","muted","Clone is synchronized automatically from Me. All stats match Me except movement speed, which is 90% of Me and rounded to one decimal place.")
-      : el("p","muted",`Tier is limited to T0–T${maxTier}. Gather sec and Process sec are limited to ${editableNumber(actionMin)}–${editableNumber(actionMax)}s in 0.001s increments. Percentage fields are limited to 0–100%. Changes are saved in this browser when applied.`);
+      : el("p","muted",`Tier is limited to T0–T${maxTier}. Gather sec and Process sec are limited to ${editableNumber(actionMin)}–${editableNumber(actionMax)}s in 0.01s increments. Action times are entered at normal (out-of-fortress) speed; the simulator divides them by the Fortress speed-up. Percentage fields are limited to 0–100%. Changes are saved in this browser when applied.`);
     footer.appendChild(helper);
     const actions=el("div","actions");footer.appendChild(actions);
     const apply=el("button","primary","Apply profile changes");apply.disabled=readonly;actions.appendChild(apply);
@@ -432,7 +454,7 @@ namespace GauntletWeb {
 
         <section id="help-profiles">
           <h2>Profiles</h2>
-          <p>A profile describes one player or stand-in. Each profile can have its own movement speed, backpack size, role tiers, gather/process times, success chances, per-role double-gather chance, and per-role material-save chance.</p>
+          <p>A profile describes one player or stand-in. Each profile can have its own movement speed, backpack size, role tiers, gather/process times, success chances, per-role double-gather chance, and per-role material-save chance. Gather/process times are entered at normal out-of-fortress speed; the simulator applies the Game Model's Fortress speed-up internally.</p>
           <p>Generic T0 through T11 profiles are included as convenient starting points. The built-in <strong>Clone</strong> automatically follows <strong>Me</strong>, except its movement speed is 90% of Me's speed. Other profiles can be dragged to reorder them; that order is saved in the browser.</p>
         </section>
 
@@ -501,7 +523,7 @@ namespace GauntletWeb {
     panel.appendChild(el("p","muted","These are model assumptions, not hidden constants. Change them freely for sensitivity tests."));
     const form=el("div","form-grid game-form");panel.appendChild(form);
     const fields:[keyof Gauntlet.GameConfig,string][]=[
-      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["action_time_min","Minimum action time (s)"],["action_time_max","Maximum action time (s)"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["raw_material_value_divisor","Raw material value divisor"],["max_wave","Simulation wave ceiling"]
+      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["action_time_min","Minimum action time (s)"],["action_time_max","Maximum action time (s)"],["fortress_speedup","Fortress speed-up"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["raw_material_value_divisor","Raw material value divisor"],["max_wave","Simulation wave ceiling"]
     ];
     const inputs=new Map<keyof Gauntlet.GameConfig,HTMLInputElement>();
     for(const [key,label] of fields){const inp=inputRow(form,label,String(state.game[key] as any),"number");inputs.set(key,inp);}
@@ -509,7 +531,7 @@ namespace GauntletWeb {
     const matsWrap=el("div","form-grid single-form");panel.appendChild(matsWrap);const mats=inputRow(matsWrap,"Processed material values by tier (T0 onward)",state.game.material_values.join(","));panel.appendChild(el("p","muted",`Comma-separated. The number of entries sets the maximum profile tier; ${state.game.material_values.length} entries currently allow T0–T${maxProfileTier()}.`));
     const actions=el("div","actions");panel.appendChild(actions);const restore=el("button","secondary","Restore game-model defaults");const apply=el("button","primary","Apply game-model changes");const close=el("button","secondary","Close Game Model");close.onclick=closeGameModel;actions.append(restore,apply,close);
     restore.onclick=()=>{if(!confirm("Restore only Game model settings from factory defaults? Profiles and Experiment settings will be left unchanged."))return;state.game=Gauntlet.deepClone(factoryState.game);saveStateNow();renderGameModel();setStatus("Restored game-model defaults");};
-    apply.onclick=()=>{try{for(const [key] of fields){const inp=inputs.get(key)!;(state.game as any)[key]=(key==="health_milestone_every"||key==="max_wave")?intValue(inp):(numValue(inp));}if(!(state.game.action_time_min>0)||state.game.action_time_max<state.game.action_time_min)throw new Error("Action time limits must be positive, with maximum at least as large as minimum.");state.game.use_lane_noise=noise.input.checked;const vals=mats.value.split(",").map(x=>Number(x.trim())).filter(Number.isFinite).map(Math.trunc);if(!vals.length)throw new Error("Material values cannot be empty");state.game.material_values=vals;clampProfilesToGameModel();saveStateNow();renderProfiles();renderExperiment();setStatus("Applied and saved game-model changes");}catch(err){alert(err instanceof Error?err.message:String(err));}};
+    apply.onclick=()=>{try{for(const [key] of fields){const inp=inputs.get(key)!;(state.game as any)[key]=(key==="health_milestone_every"||key==="max_wave")?intValue(inp):(numValue(inp));}if(!(state.game.action_time_min>0)||state.game.action_time_max<state.game.action_time_min)throw new Error("Action time limits must be positive, with maximum at least as large as minimum.");if(!(state.game.fortress_speedup>0))throw new Error("Fortress speed-up must be greater than zero.");state.game.use_lane_noise=noise.input.checked;const vals=mats.value.split(",").map(x=>Number(x.trim())).filter(Number.isFinite).map(Math.trunc);if(!vals.length)throw new Error("Material values cannot be empty");state.game.material_values=vals;clampProfilesToGameModel();saveStateNow();renderProfiles();renderExperiment();setStatus("Applied and saved game-model changes");}catch(err){alert(err instanceof Error?err.message:String(err));}};
   }
 
   function snapshotState():Gauntlet.AppState{return Gauntlet.deepClone(state);}
