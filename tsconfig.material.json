@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "none",
+    "outFile": "./tests/material_save_probe.js",
+    "sourceMap": false,
+    "lib": ["ES2020", "DOM"]
+  },
+  "files": [
+    "src/core.ts",
+    "src/engine.ts",
+    "tests/material_save_probe.ts"
+  ]
+}

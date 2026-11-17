@@ -9,6 +9,7 @@ namespace Gauntlet {
     double_gather: number;
     process_time: number;
     process_success: number;
+    material_save?: number;
   }
 
   export interface PlayerProfile {
@@ -41,6 +42,7 @@ namespace Gauntlet {
     failure_xp_mult: number;
     completion_xp_power: number;
     material_values: number[];
+    raw_material_value_divisor: number;
     max_wave: number;
   }
 
@@ -149,11 +151,21 @@ namespace Gauntlet {
     state.profiles["Clone"] = clone;
   }
 
+  export function defaultMaterialSaveForTier(tier: number): number {
+    const t = Math.max(0, Math.min(10, Math.trunc(Number.isFinite(tier) ? tier : 0)));
+    return Math.round(t * 25) / 1000;
+  }
+
+  export function materialSaveChance(stats: RoleStats): number {
+    const explicit = stats.material_save;
+    return clamp(typeof explicit === "number" && Number.isFinite(explicit) ? explicit : defaultMaterialSaveForTier(stats.tier), 0, 1);
+  }
+
   export function profileSignature(profile: PlayerProfile): string {
     const vals: (string|number)[] = [round9(profile.movement_speed), profile.backpack_size];
     for (const role of ROLES) {
       const rs = profile.role_stats[role];
-      vals.push(rs.tier, round9(rs.gather_time), round9(rs.gather_success), round9(rs.double_gather), round9(rs.process_time), round9(rs.process_success));
+      vals.push(rs.tier, round9(rs.gather_time), round9(rs.gather_success), round9(rs.double_gather), round9(rs.process_time), round9(rs.process_success), round9(materialSaveChance(rs)));
     }
     return JSON.stringify(vals);
   }
