@@ -75,12 +75,15 @@ namespace GauntletWeb {
     if (!Number.isFinite(state.game.raw_material_value_divisor)) {
       state.game.raw_material_value_divisor = factoryState.game.raw_material_value_divisor ?? 3;
     }
-    if (!Number.isFinite(state.game.gather_time_min)) {
-      state.game.gather_time_min = factoryState.game.gather_time_min ?? 0.2;
+    const legacyGame = state.game as Gauntlet.GameConfig & {gather_time_min?: number; gather_time_max?: number};
+    if (!Number.isFinite(state.game.action_time_min)) {
+      state.game.action_time_min = Number.isFinite(legacyGame.gather_time_min) ? legacyGame.gather_time_min! : (factoryState.game.action_time_min ?? 0.2);
     }
-    if (!Number.isFinite(state.game.gather_time_max)) {
-      state.game.gather_time_max = factoryState.game.gather_time_max ?? 1.0;
+    if (!Number.isFinite(state.game.action_time_max)) {
+      state.game.action_time_max = Number.isFinite(legacyGame.gather_time_max) ? legacyGame.gather_time_max! : (factoryState.game.action_time_max ?? 1.0);
     }
+    delete legacyGame.gather_time_min;
+    delete legacyGame.gather_time_max;
 
     // Named run-size presets are application defaults, not user-authored data.
     // Keep them current when the app ships updated preset definitions.
@@ -207,13 +210,14 @@ namespace GauntletWeb {
   }
   function clampProfilesToGameModel():void{
     const maxTier=maxProfileTier();
-    const gatherMin=state.game.gather_time_min;
-    const gatherMax=state.game.gather_time_max;
+    const actionMin=state.game.action_time_min;
+    const actionMax=state.game.action_time_max;
     for(const profile of Object.values(state.profiles)){
       for(const role of Gauntlet.ROLES){
         const rs=profile.role_stats[role];
         rs.tier=Math.max(0,Math.min(maxTier,Math.trunc(rs.tier)));
-        rs.gather_time=roundDecimal(Gauntlet.clamp(rs.gather_time,gatherMin,gatherMax),3);
+        rs.gather_time=roundDecimal(Gauntlet.clamp(rs.gather_time,actionMin,actionMax),3);
+        rs.process_time=roundDecimal(Gauntlet.clamp(rs.process_time,actionMin,actionMax),3);
       }
     }
   }
@@ -286,19 +290,19 @@ namespace GauntletWeb {
     const bagInput=inputRow(top,"Backpack size",String(profile.backpack_size),"number",readonly);
 
     const maxTier=maxProfileTier();
-    const gatherMin=state.game.gather_time_min;
-    const gatherMax=state.game.gather_time_max;
+    const actionMin=state.game.action_time_min;
+    const actionMax=state.game.action_time_max;
     const table=el("table","stats-table");fields.appendChild(table);
     const head=el("thead");const hr=el("tr");for(const h of ["Role","Tier","Gather sec","Gather success %","Double gather %","Process sec","Process success %","Material save %"]){hr.appendChild(el("th","",h));}head.appendChild(hr);table.appendChild(head);
     const body=el("tbody");table.appendChild(body);
     const roleInputs=new Map<Gauntlet.Role,HTMLInputElement[]>();
     for(const role of Gauntlet.ROLES){
       const rs=profile.role_stats[role];const tr=el("tr");tr.appendChild(el("td","role-name",role));
-      const vals=[String(Math.max(0,Math.min(maxTier,Math.trunc(rs.tier)))),editableNumber(Gauntlet.clamp(rs.gather_time,gatherMin,gatherMax),6),editableNumber(rs.gather_success*100,6),editableNumber(rs.double_gather*100,6),editableNumber(rs.process_time,9),editableNumber(rs.process_success*100,6),editableNumber(Gauntlet.materialSaveChance(rs)*100,6)];
+      const vals=[String(Math.max(0,Math.min(maxTier,Math.trunc(rs.tier)))),editableNumber(Gauntlet.clamp(rs.gather_time,actionMin,actionMax),6),editableNumber(rs.gather_success*100,6),editableNumber(rs.double_gather*100,6),editableNumber(Gauntlet.clamp(rs.process_time,actionMin,actionMax),6),editableNumber(rs.process_success*100,6),editableNumber(Gauntlet.materialSaveChance(rs)*100,6)];
       const arr:HTMLInputElement[]=[];
       vals.forEach((v,i)=>{const td=el("td");const inp=el("input","input compact") as HTMLInputElement;inp.type="number";inp.value=v;inp.disabled=readonly;
         if(i===0){inp.step="1";inp.min="0";inp.max=String(maxTier);}
-        else if(i===1){inp.step="0.001";inp.min=String(gatherMin);inp.max=String(gatherMax);inp.addEventListener("wheel",e=>{if(document.activeElement!==inp)return;e.preventDefault();if(e.deltaY<0)inp.stepUp();else if(e.deltaY>0)inp.stepDown();},{passive:false});}
+        else if(i===1||i===4){inp.step="0.001";inp.min=String(actionMin);inp.max=String(actionMax);inp.addEventListener("wheel",e=>{if(document.activeElement!==inp)return;e.preventDefault();if(e.deltaY<0)inp.stepUp();else if(e.deltaY>0)inp.stepDown();},{passive:false});}
         else if(i===2||i===3||i===5||i===6){inp.step="any";inp.min="0";inp.max="100";}
         else inp.step="any";
         td.appendChild(inp);tr.appendChild(td);arr.push(inp);});body.appendChild(tr);roleInputs.set(role,arr);
@@ -306,7 +310,7 @@ namespace GauntletWeb {
     const footer=el("div","helper-actions");fields.appendChild(footer);
     const helper=readonly
       ? el("p","muted","Clone is synchronized automatically from Me. All stats match Me except movement speed, which is 90% of Me and rounded to one decimal place.")
-      : el("p","muted",`Tier is limited to T0–T${maxTier}. Gather sec is limited to ${editableNumber(gatherMin)}–${editableNumber(gatherMax)}s in 0.001s increments. Percentage fields are limited to 0–100%. Changes are saved in this browser when applied.`);
+      : el("p","muted",`Tier is limited to T0–T${maxTier}. Gather sec and Process sec are limited to ${editableNumber(actionMin)}–${editableNumber(actionMax)}s in 0.001s increments. Percentage fields are limited to 0–100%. Changes are saved in this browser when applied.`);
     footer.appendChild(helper);
     const actions=el("div","actions");footer.appendChild(actions);
     const apply=el("button","primary","Apply profile changes");apply.disabled=readonly;actions.appendChild(apply);
@@ -314,7 +318,7 @@ namespace GauntletWeb {
       try{
         const old=selectedProfile;let newName=nameInput.value.trim();if(!newName)throw new Error("Name cannot be empty");if(newName!==old&&state.profiles[newName])throw new Error("A profile with that name already exists");
         const p=Gauntlet.deepClone(profile);p.name=newName;p.movement_speed=Math.round(numValue(speedInput,p.movement_speed)*10)/10;p.backpack_size=Math.max(1,intValue(bagInput,p.backpack_size));
-        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.min(maxTier,Math.trunc(numValue(a[0])))),gather_time:roundDecimal(Gauntlet.clamp(numValue(a[1]),gatherMin,gatherMax),3),gather_success:percentValue(a[2]),double_gather:percentValue(a[3]),process_time:roundDecimal(numValue(a[4]),9),process_success:percentValue(a[5]),material_save:percentValue(a[6])};}
+        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.min(maxTier,Math.trunc(numValue(a[0])))),gather_time:roundDecimal(Gauntlet.clamp(numValue(a[1]),actionMin,actionMax),3),gather_success:percentValue(a[2]),double_gather:percentValue(a[3]),process_time:roundDecimal(Gauntlet.clamp(numValue(a[4]),actionMin,actionMax),3),process_success:percentValue(a[5]),material_save:percentValue(a[6])};}
         if(newName!==old){for(const slot of state.party)if(slot.profile_name===old)slot.profile_name=newName;replaceProfilePreservingOrder(old,newName,p);}else state.profiles[newName]=p;
         selectedProfile=newName;Gauntlet.cloneFromMe(state);saveStateNow();renderProfiles();renderExperiment();setStatus(`Applied and saved profile: ${newName}`);
       }catch(err){alert(err instanceof Error?err.message:String(err));}
@@ -497,7 +501,7 @@ namespace GauntletWeb {
     panel.appendChild(el("p","muted","These are model assumptions, not hidden constants. Change them freely for sensitivity tests."));
     const form=el("div","form-grid game-form");panel.appendChild(form);
     const fields:[keyof Gauntlet.GameConfig,string][]=[
-      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["gather_time_min","Minimum gather time (s)"],["gather_time_max","Maximum gather time (s)"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["raw_material_value_divisor","Raw material value divisor"],["max_wave","Simulation wave ceiling"]
+      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["action_time_min","Minimum action time (s)"],["action_time_max","Maximum action time (s)"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["raw_material_value_divisor","Raw material value divisor"],["max_wave","Simulation wave ceiling"]
     ];
     const inputs=new Map<keyof Gauntlet.GameConfig,HTMLInputElement>();
     for(const [key,label] of fields){const inp=inputRow(form,label,String(state.game[key] as any),"number");inputs.set(key,inp);}
@@ -505,7 +509,7 @@ namespace GauntletWeb {
     const matsWrap=el("div","form-grid single-form");panel.appendChild(matsWrap);const mats=inputRow(matsWrap,"Processed material values by tier (T0 onward)",state.game.material_values.join(","));panel.appendChild(el("p","muted",`Comma-separated. The number of entries sets the maximum profile tier; ${state.game.material_values.length} entries currently allow T0–T${maxProfileTier()}.`));
     const actions=el("div","actions");panel.appendChild(actions);const restore=el("button","secondary","Restore game-model defaults");const apply=el("button","primary","Apply game-model changes");const close=el("button","secondary","Close Game Model");close.onclick=closeGameModel;actions.append(restore,apply,close);
     restore.onclick=()=>{if(!confirm("Restore only Game model settings from factory defaults? Profiles and Experiment settings will be left unchanged."))return;state.game=Gauntlet.deepClone(factoryState.game);saveStateNow();renderGameModel();setStatus("Restored game-model defaults");};
-    apply.onclick=()=>{try{for(const [key] of fields){const inp=inputs.get(key)!;(state.game as any)[key]=(key==="health_milestone_every"||key==="max_wave")?intValue(inp):(numValue(inp));}if(!(state.game.gather_time_min>0)||state.game.gather_time_max<state.game.gather_time_min)throw new Error("Gather time limits must be positive, with maximum at least as large as minimum.");state.game.use_lane_noise=noise.input.checked;const vals=mats.value.split(",").map(x=>Number(x.trim())).filter(Number.isFinite).map(Math.trunc);if(!vals.length)throw new Error("Material values cannot be empty");state.game.material_values=vals;clampProfilesToGameModel();saveStateNow();renderProfiles();renderExperiment();setStatus("Applied and saved game-model changes");}catch(err){alert(err instanceof Error?err.message:String(err));}};
+    apply.onclick=()=>{try{for(const [key] of fields){const inp=inputs.get(key)!;(state.game as any)[key]=(key==="health_milestone_every"||key==="max_wave")?intValue(inp):(numValue(inp));}if(!(state.game.action_time_min>0)||state.game.action_time_max<state.game.action_time_min)throw new Error("Action time limits must be positive, with maximum at least as large as minimum.");state.game.use_lane_noise=noise.input.checked;const vals=mats.value.split(",").map(x=>Number(x.trim())).filter(Number.isFinite).map(Math.trunc);if(!vals.length)throw new Error("Material values cannot be empty");state.game.material_values=vals;clampProfilesToGameModel();saveStateNow();renderProfiles();renderExperiment();setStatus("Applied and saved game-model changes");}catch(err){alert(err instanceof Error?err.message:String(err));}};
   }
 
   function snapshotState():Gauntlet.AppState{return Gauntlet.deepClone(state);}

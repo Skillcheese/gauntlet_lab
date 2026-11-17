@@ -22,8 +22,8 @@ namespace Gauntlet {
   export interface GameConfig {
     fortress_node_distance: number;
     gather_process_distance: number;
-    gather_time_min: number;
-    gather_time_max: number;
+    action_time_min: number;
+    action_time_max: number;
     prep_seconds: number;
     wave_interval: number;
     combat_interval: number;
