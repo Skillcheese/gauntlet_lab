@@ -24,6 +24,7 @@ namespace Gauntlet {
     gather_process_distance: number;
     action_time_min: number;
     action_time_max: number;
+    fortress_speedup: number;
     prep_seconds: number;
     wave_interval: number;
     combat_interval: number;

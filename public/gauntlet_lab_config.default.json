@@ -1,5 +1,5 @@
 {
-  "config_version": 5,
+  "config_version": 6,
   "defaults": {
     "profiles": {
       "Me": {
@@ -9,46 +9,46 @@
         "role_stats": {
           "Health": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           }
@@ -61,46 +61,46 @@
         "role_stats": {
           "Health": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           }
@@ -113,46 +113,46 @@
         "role_stats": {
           "Health": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Melee": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Ranged": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Magic": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Defense": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           }
@@ -165,46 +165,46 @@
         "role_stats": {
           "Health": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Melee": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Ranged": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Magic": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Defense": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           }
@@ -217,46 +217,46 @@
         "role_stats": {
           "Health": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Melee": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Ranged": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Magic": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Defense": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           }
@@ -269,46 +269,46 @@
         "role_stats": {
           "Health": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Melee": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Ranged": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Magic": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Defense": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           }
@@ -321,46 +321,46 @@
         "role_stats": {
           "Health": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Melee": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Ranged": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Magic": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Defense": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           }
@@ -373,46 +373,46 @@
         "role_stats": {
           "Health": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Melee": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Ranged": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Magic": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Defense": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           }
@@ -425,46 +425,46 @@
         "role_stats": {
           "Health": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Melee": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Ranged": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Magic": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Defense": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           }
@@ -477,46 +477,46 @@
         "role_stats": {
           "Health": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Melee": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Ranged": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Magic": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Defense": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           }
@@ -529,46 +529,46 @@
         "role_stats": {
           "Health": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Melee": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Ranged": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Magic": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Defense": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           }
@@ -581,46 +581,46 @@
         "role_stats": {
           "Health": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Melee": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Ranged": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Magic": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Defense": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           }
@@ -633,46 +633,46 @@
         "role_stats": {
           "Health": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Melee": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Ranged": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Magic": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Defense": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           }
@@ -685,46 +685,46 @@
         "role_stats": {
           "Health": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Melee": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Ranged": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Magic": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Defense": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           }
@@ -766,8 +766,9 @@
     "game": {
       "fortress_node_distance": 255.0,
       "gather_process_distance": 100.0,
-      "action_time_min": 0.2,
-      "action_time_max": 1.0,
+      "action_time_min": 2.0,
+      "action_time_max": 10.0,
+      "fortress_speedup": 10.0,
       "prep_seconds": 120.0,
       "wave_interval": 20.0,
       "combat_interval": 1.5,
@@ -850,46 +851,46 @@
         "role_stats": {
           "Health": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           }
@@ -902,46 +903,46 @@
         "role_stats": {
           "Health": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Melee": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Ranged": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Magic": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           },
           "Defense": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0.0
           }
@@ -954,46 +955,46 @@
         "role_stats": {
           "Health": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Melee": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Ranged": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Magic": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           },
           "Defense": {
             "tier": 0,
-            "gather_time": 1.0,
+            "gather_time": 10.0,
             "gather_success": 0.75,
             "double_gather": 0.0,
-            "process_time": 1.0,
+            "process_time": 10.0,
             "process_success": 0.75,
             "material_save": 0
           }
@@ -1006,46 +1007,46 @@
         "role_stats": {
           "Health": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Melee": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Ranged": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Magic": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           },
           "Defense": {
             "tier": 1,
-            "gather_time": 0.965,
+            "gather_time": 9.65,
             "gather_success": 0.775,
             "double_gather": 0.03,
-            "process_time": 0.965,
+            "process_time": 9.65,
             "process_success": 0.775,
             "material_save": 0.025
           }
@@ -1058,46 +1059,46 @@
         "role_stats": {
           "Health": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Melee": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Ranged": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Magic": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           },
           "Defense": {
             "tier": 2,
-            "gather_time": 0.93,
+            "gather_time": 9.3,
             "gather_success": 0.8,
             "double_gather": 0.06,
-            "process_time": 0.93,
+            "process_time": 9.3,
             "process_success": 0.8,
             "material_save": 0.05
           }
@@ -1110,46 +1111,46 @@
         "role_stats": {
           "Health": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Melee": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Ranged": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Magic": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           },
           "Defense": {
             "tier": 3,
-            "gather_time": 0.895,
+            "gather_time": 8.95,
             "gather_success": 0.825,
             "double_gather": 0.09,
-            "process_time": 0.895,
+            "process_time": 8.95,
             "process_success": 0.825,
             "material_save": 0.075
           }
@@ -1162,46 +1163,46 @@
         "role_stats": {
           "Health": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Melee": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Ranged": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Magic": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           },
           "Defense": {
             "tier": 4,
-            "gather_time": 0.86,
+            "gather_time": 8.6,
             "gather_success": 0.85,
             "double_gather": 0.12,
-            "process_time": 0.86,
+            "process_time": 8.6,
             "process_success": 0.85,
             "material_save": 0.1
           }
@@ -1214,46 +1215,46 @@
         "role_stats": {
           "Health": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Melee": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Ranged": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Magic": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           },
           "Defense": {
             "tier": 5,
-            "gather_time": 0.825,
+            "gather_time": 8.25,
             "gather_success": 0.875,
             "double_gather": 0.15,
-            "process_time": 0.825,
+            "process_time": 8.25,
             "process_success": 0.875,
             "material_save": 0.125
           }
@@ -1266,46 +1267,46 @@
         "role_stats": {
           "Health": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Melee": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Ranged": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Magic": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           },
           "Defense": {
             "tier": 6,
-            "gather_time": 0.79,
+            "gather_time": 7.9,
             "gather_success": 0.9,
             "double_gather": 0.18,
-            "process_time": 0.79,
+            "process_time": 7.9,
             "process_success": 0.9,
             "material_save": 0.15
           }
@@ -1318,46 +1319,46 @@
         "role_stats": {
           "Health": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Melee": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Ranged": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Magic": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           },
           "Defense": {
             "tier": 7,
-            "gather_time": 0.755,
+            "gather_time": 7.55,
             "gather_success": 0.925,
             "double_gather": 0.21,
-            "process_time": 0.755,
+            "process_time": 7.55,
             "process_success": 0.925,
             "material_save": 0.175
           }
@@ -1370,46 +1371,46 @@
         "role_stats": {
           "Health": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Melee": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Ranged": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Magic": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           },
           "Defense": {
             "tier": 8,
-            "gather_time": 0.72,
+            "gather_time": 7.2,
             "gather_success": 0.95,
             "double_gather": 0.24,
-            "process_time": 0.72,
+            "process_time": 7.2,
             "process_success": 0.95,
             "material_save": 0.2
           }
@@ -1422,46 +1423,46 @@
         "role_stats": {
           "Health": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Melee": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Ranged": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Magic": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           },
           "Defense": {
             "tier": 9,
-            "gather_time": 0.685,
+            "gather_time": 6.85,
             "gather_success": 0.975,
             "double_gather": 0.27,
-            "process_time": 0.685,
+            "process_time": 6.85,
             "process_success": 0.975,
             "material_save": 0.225
           }
@@ -1474,46 +1475,46 @@
         "role_stats": {
           "Health": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Melee": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Ranged": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Magic": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           },
           "Defense": {
             "tier": 10,
-            "gather_time": 0.65,
+            "gather_time": 6.5,
             "gather_success": 1.0,
             "double_gather": 0.3,
-            "process_time": 0.65,
+            "process_time": 6.5,
             "process_success": 1.0,
             "material_save": 0.25
           }
@@ -1526,46 +1527,46 @@
         "role_stats": {
           "Health": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Melee": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Ranged": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Magic": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           },
           "Defense": {
             "tier": 10,
-            "gather_time": 0.2,
+            "gather_time": 2.0,
             "gather_success": 1.0,
             "double_gather": 0.5,
-            "process_time": 0.2,
+            "process_time": 2.0,
             "process_success": 1.0,
             "material_save": 0.3
           }
@@ -1607,8 +1608,9 @@
     "game": {
       "fortress_node_distance": 255.0,
       "gather_process_distance": 100.0,
-      "action_time_min": 0.2,
-      "action_time_max": 1.0,
+      "action_time_min": 2.0,
+      "action_time_max": 10.0,
+      "fortress_speedup": 10.0,
       "prep_seconds": 120.0,
       "wave_interval": 20.0,
       "combat_interval": 1.5,
