@@ -1,5 +1,5 @@
 {
-  "config_version": 4,
+  "config_version": 5,
   "defaults": {
     "profiles": {
       "Me": {
@@ -766,6 +766,8 @@
     "game": {
       "fortress_node_distance": 255.0,
       "gather_process_distance": 100.0,
+      "gather_time_min": 0.2,
+      "gather_time_max": 1.0,
       "prep_seconds": 120.0,
       "wave_interval": 20.0,
       "combat_interval": 1.5,
@@ -1605,6 +1607,8 @@
     "game": {
       "fortress_node_distance": 255.0,
       "gather_process_distance": 100.0,
+      "gather_time_min": 0.2,
+      "gather_time_max": 1.0,
       "prep_seconds": 120.0,
       "wave_interval": 20.0,
       "combat_interval": 1.5,

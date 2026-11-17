@@ -184,7 +184,8 @@ body {
 
 .profiles-layout {
   display: grid;
-  grid-template-columns: 230px minmax(0,960px);
+  grid-template-columns: 230px minmax(0,1fr);
+  width: min(100%,1206px);
   justify-content: start;
   gap: 16px;
   height: 100%;
@@ -216,15 +217,58 @@ body {
   border-radius: 6px;
   padding: 4px;
   background: #fff;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
-.profile-list:focus {
-  outline: none;
+.profile-list-item {
+  position: relative;
+  width: 100%;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 4px;
+  padding: 5px 7px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-.profile-list:focus-visible {
+.profile-list-item:hover {
+  background: #f2f4f7;
+}
+
+.profile-list-item.selected {
+  background: #eaf2ff;
+  color: #174ea6;
+}
+
+.profile-list-item.draggable {
+  cursor: grab;
+}
+
+.profile-list-item.draggable:active {
+  cursor: grabbing;
+}
+
+.profile-list-item.dragging {
+  opacity: .4;
+}
+
+.profile-list-item.drop-before {
+  box-shadow: inset 0 2px 0 #2563eb;
+}
+
+.profile-list-item.drop-after {
+  box-shadow: inset 0 -2px 0 #2563eb;
+}
+
+.profile-list-item:focus-visible {
   outline: 2px solid #84adff;
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
 .card {
@@ -369,12 +413,12 @@ body {
 }
 
 .profile-editor .stats-table .input {
-  width: 108px;
+  width: clamp(74px,7.2vw,108px);
   min-width: 0;
 }
 
 .profile-editor .stats-table .role-name {
-  min-width: 82px;
+  min-width: 72px;
 }
 
 .role-name,.slot-label {
@@ -581,6 +625,24 @@ button:disabled {
   color: #912018;
   padding: 16px;
   border-bottom: 1px solid #fda29b;
+}
+
+
+@media (max-width: 1200px) {
+  .profile-editor .stats-table th,
+  .profile-editor .stats-table td {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .profile-editor .stats-table th {
+    white-space: normal;
+    line-height: 1.15;
+  }
+
+  .profile-editor .stats-table .input {
+    width: 74px;
+  }
 }
 
 @media (max-width: 1080px) {

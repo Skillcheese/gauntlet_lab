@@ -35,10 +35,28 @@ namespace GauntletWeb {
   function qs<T extends Element>(selector: string): T { return document.querySelector(selector) as T; }
   function pct(v: number): string { return `${(100*v).toFixed(1)}%`; }
   function fmt(v: number, digits=2): string { return v.toLocaleString(undefined,{minimumFractionDigits:digits,maximumFractionDigits:digits}); }
+  function roundDecimal(v: number, digits=9): number {
+    if (!Number.isFinite(v)) return v;
+    const scale = 10 ** digits;
+    return Math.round((v + Number.EPSILON) * scale) / scale;
+  }
+  function editableNumber(v: number, digits=9): string { return String(roundDecimal(v,digits)); }
+  function formatDuration(seconds: number): string {
+    const total = Math.max(0, Math.round(seconds));
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const secs = total % 60;
+    if (hours > 0) return `${hours}h${minutes}m${secs}s`;
+    if (minutes > 0) return `${minutes}m${secs}s`;
+    return `${secs}s`;
+  }
   function numValue(input: HTMLInputElement, fallback=0): number {
     const v = Number(input.value); return Number.isFinite(v) ? v : fallback;
   }
   function intValue(input: HTMLInputElement, fallback=0): number { return Math.trunc(numValue(input,fallback)); }
+  function percentValue(input: HTMLInputElement, fallback=0): number {
+    return roundDecimal(Gauntlet.clamp(numValue(input,fallback*100)/100,0,1));
+  }
 
   async function loadConfig(): Promise<void> {
     const response = await fetch("gauntlet_lab_config.default.json", {cache:"no-store"});
@@ -57,11 +75,19 @@ namespace GauntletWeb {
     if (!Number.isFinite(state.game.raw_material_value_divisor)) {
       state.game.raw_material_value_divisor = factoryState.game.raw_material_value_divisor ?? 3;
     }
+    if (!Number.isFinite(state.game.gather_time_min)) {
+      state.game.gather_time_min = factoryState.game.gather_time_min ?? 0.2;
+    }
+    if (!Number.isFinite(state.game.gather_time_max)) {
+      state.game.gather_time_max = factoryState.game.gather_time_max ?? 1.0;
+    }
 
     // Named run-size presets are application defaults, not user-authored data.
     // Keep them current when the app ships updated preset definitions.
     state.settings.run_presets = Gauntlet.deepClone(factoryState.settings.run_presets);
 
+    clampProfilesToGameModel();
+    ensureFixedProfilesFirst();
     Gauntlet.cloneFromMe(state);
     // v0.2 gives the rankings enough room for the usual 12 finalists while
     // keeping a six-wave detail distribution visible below. Preserve any
@@ -154,6 +180,43 @@ namespace GauntletWeb {
   }
 
   function profileNames(): string[] { return Object.keys(state.profiles); }
+  function maxProfileTier(): number { return Math.max(0,state.game.material_values.length-1); }
+  function ensureFixedProfilesFirst(): void {
+    const names=profileNames();
+    const desired=["Me","Clone",...names.filter(name=>name!=="Me"&&name!=="Clone")].filter(name=>state.profiles[name]);
+    if(desired.every((name,i)=>name===names[i])&&desired.length===names.length)return;
+    const ordered:Record<string,Gauntlet.PlayerProfile>={};
+    for(const name of desired)ordered[name]=state.profiles[name];
+    state.profiles=ordered;
+  }
+  function reorderProfile(dragged:string,target:string,before:boolean):void{
+    if(dragged==="Me"||dragged==="Clone"||target==="Me"||target==="Clone"||dragged===target)return;
+    const names=profileNames().filter(name=>name!==dragged);
+    const targetIndex=names.indexOf(target);
+    if(targetIndex<0)return;
+    names.splice(targetIndex+(before?0:1),0,dragged);
+    const ordered:Record<string,Gauntlet.PlayerProfile>={};
+    for(const name of names)ordered[name]=state.profiles[name];
+    state.profiles=ordered;
+    saveStateNow();renderProfiles();renderExperiment();
+  }
+  function replaceProfilePreservingOrder(oldName:string,newName:string,profile:Gauntlet.PlayerProfile):void{
+    const ordered:Record<string,Gauntlet.PlayerProfile>={};
+    for(const name of profileNames())ordered[name===oldName?newName:name]=name===oldName?profile:state.profiles[name];
+    state.profiles=ordered;
+  }
+  function clampProfilesToGameModel():void{
+    const maxTier=maxProfileTier();
+    const gatherMin=state.game.gather_time_min;
+    const gatherMax=state.game.gather_time_max;
+    for(const profile of Object.values(state.profiles)){
+      for(const role of Gauntlet.ROLES){
+        const rs=profile.role_stats[role];
+        rs.tier=Math.max(0,Math.min(maxTier,Math.trunc(rs.tier)));
+        rs.gather_time=roundDecimal(Gauntlet.clamp(rs.gather_time,gatherMin,gatherMax),3);
+      }
+    }
+  }
   function roleSelect(value: Gauntlet.Role): HTMLSelectElement {
     const s=el("select","input");
     for(const r of Gauntlet.ROLES){const o=el("option") as HTMLOptionElement;o.value=r;o.textContent=r;o.selected=r===value;s.appendChild(o);} return s;
@@ -164,17 +227,33 @@ namespace GauntletWeb {
     const layout=el("div","profiles-layout"); panel.appendChild(layout);
     const sidebar=el("section","profile-sidebar"); layout.appendChild(sidebar);
     sidebar.appendChild(el("h3","section-title","Profiles"));
-    const list=el("select","profile-list") as HTMLSelectElement; list.size=18;
-    for(const name of profileNames()){const o=el("option") as HTMLOptionElement;o.value=name;o.textContent=name;o.selected=name===selectedProfile;list.appendChild(o);}
-    sidebar.appendChild(list);
-    list.onchange=()=>{
-      selectedProfile=list.value;
-      renderProfiles();
-      requestAnimationFrame(()=>{
-        const nextList=document.querySelector<HTMLSelectElement>("#profiles-panel .profile-list");
-        nextList?.focus({preventScroll:true});
-      });
-    };
+    const list=el("div","profile-list");list.setAttribute("role","listbox");sidebar.appendChild(list);
+    const names=profileNames();
+    const clearDropIndicators=()=>list.querySelectorAll(".drop-before,.drop-after").forEach(item=>item.classList.remove("drop-before","drop-after"));
+    const focusSelected=()=>requestAnimationFrame(()=>document.querySelector<HTMLButtonElement>(`#profiles-panel .profile-list-item[data-profile-name="${CSS.escape(selectedProfile)}"]`)?.focus({preventScroll:true}));
+    names.forEach((name,index)=>{
+      const fixed=name==="Me"||name==="Clone";
+      const item=el("button",`profile-list-item${name===selectedProfile?" selected":""}${fixed?" fixed":" draggable"}`,name);
+      item.type="button";item.dataset.profileName=name;item.setAttribute("role","option");item.setAttribute("aria-selected",String(name===selectedProfile));item.draggable=!fixed;
+      item.onclick=()=>{selectedProfile=name;renderProfiles();focusSelected();};
+      item.onkeydown=e=>{
+        if(e.key!=="ArrowDown"&&e.key!=="ArrowUp"&&e.key!=="Home"&&e.key!=="End")return;
+        e.preventDefault();
+        let next=index;
+        if(e.key==="ArrowDown")next=Math.min(names.length-1,index+1);
+        else if(e.key==="ArrowUp")next=Math.max(0,index-1);
+        else if(e.key==="Home")next=0;
+        else next=names.length-1;
+        selectedProfile=names[next];renderProfiles();requestAnimationFrame(()=>document.querySelector<HTMLButtonElement>(`#profiles-panel .profile-list-item[data-profile-name="${CSS.escape(selectedProfile)}"]`)?.focus({preventScroll:true}));
+      };
+      if(!fixed){
+        item.ondragstart=e=>{item.classList.add("dragging");e.dataTransfer?.setData("text/plain",name);if(e.dataTransfer)e.dataTransfer.effectAllowed="move";};
+        item.ondragover=e=>{e.preventDefault();clearDropIndicators();const rect=item.getBoundingClientRect();item.classList.add(e.clientY<rect.top+rect.height/2?"drop-before":"drop-after");if(e.dataTransfer)e.dataTransfer.dropEffect="move";};
+        item.ondrop=e=>{e.preventDefault();const dragged=e.dataTransfer?.getData("text/plain")||"";const before=item.classList.contains("drop-before");clearDropIndicators();reorderProfile(dragged,name,before);};
+        item.ondragend=()=>{item.classList.remove("dragging");clearDropIndicators();};
+      }
+      list.appendChild(item);
+    });
     const newBtn=el("button","secondary","New generic tier…");
     const dupBtn=el("button","secondary","Duplicate selected");
     const delBtn=el("button","secondary","Delete selected");
@@ -203,23 +282,31 @@ namespace GauntletWeb {
     const fields=el("div","profile-fields");editor.appendChild(fields);
     const top=el("div","form-grid top-fields");fields.appendChild(top);
     const nameInput=inputRow(top,"Name",profile.name,"text",readonly);
-    const speedInput=inputRow(top,"Movement speed (px/s)",String(profile.movement_speed),"number",readonly);
+    const speedInput=inputRow(top,"Movement speed (px/s)",editableNumber(profile.movement_speed),"number",readonly);
     const bagInput=inputRow(top,"Backpack size",String(profile.backpack_size),"number",readonly);
 
+    const maxTier=maxProfileTier();
+    const gatherMin=state.game.gather_time_min;
+    const gatherMax=state.game.gather_time_max;
     const table=el("table","stats-table");fields.appendChild(table);
     const head=el("thead");const hr=el("tr");for(const h of ["Role","Tier","Gather sec","Gather success %","Double gather %","Process sec","Process success %","Material save %"]){hr.appendChild(el("th","",h));}head.appendChild(hr);table.appendChild(head);
     const body=el("tbody");table.appendChild(body);
     const roleInputs=new Map<Gauntlet.Role,HTMLInputElement[]>();
     for(const role of Gauntlet.ROLES){
       const rs=profile.role_stats[role];const tr=el("tr");tr.appendChild(el("td","role-name",role));
-      const vals=[String(rs.tier),String(rs.gather_time),String(rs.gather_success*100),String(rs.double_gather*100),String(rs.process_time),String(rs.process_success*100),String(Gauntlet.materialSaveChance(rs)*100)];
+      const vals=[String(Math.max(0,Math.min(maxTier,Math.trunc(rs.tier)))),editableNumber(Gauntlet.clamp(rs.gather_time,gatherMin,gatherMax),6),editableNumber(rs.gather_success*100,6),editableNumber(rs.double_gather*100,6),editableNumber(rs.process_time,9),editableNumber(rs.process_success*100,6),editableNumber(Gauntlet.materialSaveChance(rs)*100,6)];
       const arr:HTMLInputElement[]=[];
-      vals.forEach((v,i)=>{const td=el("td");const inp=el("input","input compact") as HTMLInputElement;inp.type="number";inp.value=v;inp.disabled=readonly;inp.step=i===0?"1":"any";td.appendChild(inp);tr.appendChild(td);arr.push(inp);});body.appendChild(tr);roleInputs.set(role,arr);
+      vals.forEach((v,i)=>{const td=el("td");const inp=el("input","input compact") as HTMLInputElement;inp.type="number";inp.value=v;inp.disabled=readonly;
+        if(i===0){inp.step="1";inp.min="0";inp.max=String(maxTier);}
+        else if(i===1){inp.step="0.001";inp.min=String(gatherMin);inp.max=String(gatherMax);inp.addEventListener("wheel",e=>{if(document.activeElement!==inp)return;e.preventDefault();if(e.deltaY<0)inp.stepUp();else if(e.deltaY>0)inp.stepDown();},{passive:false});}
+        else if(i===2||i===3||i===5||i===6){inp.step="any";inp.min="0";inp.max="100";}
+        else inp.step="any";
+        td.appendChild(inp);tr.appendChild(td);arr.push(inp);});body.appendChild(tr);roleInputs.set(role,arr);
     }
     const footer=el("div","helper-actions");fields.appendChild(footer);
     const helper=readonly
       ? el("p","muted","Clone is synchronized automatically from Me. All stats match Me except movement speed, which is 90% of Me and rounded to one decimal place.")
-      : el("p","muted","Success, double-gather, and material-save fields are percentages in the UI. Changes are saved in this browser when applied.");
+      : el("p","muted",`Tier is limited to T0–T${maxTier}. Gather sec is limited to ${editableNumber(gatherMin)}–${editableNumber(gatherMax)}s in 0.001s increments. Percentage fields are limited to 0–100%. Changes are saved in this browser when applied.`);
     footer.appendChild(helper);
     const actions=el("div","actions");footer.appendChild(actions);
     const apply=el("button","primary","Apply profile changes");apply.disabled=readonly;actions.appendChild(apply);
@@ -227,9 +314,9 @@ namespace GauntletWeb {
       try{
         const old=selectedProfile;let newName=nameInput.value.trim();if(!newName)throw new Error("Name cannot be empty");if(newName!==old&&state.profiles[newName])throw new Error("A profile with that name already exists");
         const p=Gauntlet.deepClone(profile);p.name=newName;p.movement_speed=Math.round(numValue(speedInput,p.movement_speed)*10)/10;p.backpack_size=Math.max(1,intValue(bagInput,p.backpack_size));
-        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.trunc(numValue(a[0]))),gather_time:numValue(a[1]),gather_success:Gauntlet.clamp(numValue(a[2])/100,0,1),double_gather:Gauntlet.clamp(numValue(a[3])/100,0,1),process_time:numValue(a[4]),process_success:Gauntlet.clamp(numValue(a[5])/100,0,1),material_save:Gauntlet.clamp(numValue(a[6])/100,0,1)};}
-        if(newName!==old){delete state.profiles[old];for(const slot of state.party)if(slot.profile_name===old)slot.profile_name=newName;}
-        state.profiles[newName]=p;selectedProfile=newName;Gauntlet.cloneFromMe(state);saveStateNow();renderProfiles();renderExperiment();setStatus(`Applied and saved profile: ${newName}`);
+        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.min(maxTier,Math.trunc(numValue(a[0])))),gather_time:roundDecimal(Gauntlet.clamp(numValue(a[1]),gatherMin,gatherMax),3),gather_success:percentValue(a[2]),double_gather:percentValue(a[3]),process_time:roundDecimal(numValue(a[4]),9),process_success:percentValue(a[5]),material_save:percentValue(a[6])};}
+        if(newName!==old){for(const slot of state.party)if(slot.profile_name===old)slot.profile_name=newName;replaceProfilePreservingOrder(old,newName,p);}else state.profiles[newName]=p;
+        selectedProfile=newName;Gauntlet.cloneFromMe(state);saveStateNow();renderProfiles();renderExperiment();setStatus(`Applied and saved profile: ${newName}`);
       }catch(err){alert(err instanceof Error?err.message:String(err));}
     };
   }
@@ -259,17 +346,18 @@ namespace GauntletWeb {
     const optimizer=el("section","card");layout.appendChild(optimizer);optimizer.appendChild(el("div","card-title","Optimizer"));
     const form=el("div","form-grid optimizer-form");optimizer.appendChild(form);
     const objLabel=el("label","field-label","Objective");const obj=el("select","input") as HTMLSelectElement;for(const v of ["XP / hour","XP / run","Mean wave cleared","Chance to clear target"] as Gauntlet.Objective[]){const o=el("option") as HTMLOptionElement;o.value=v;o.textContent=v;o.selected=v===state.optimizer.objective;obj.appendChild(o);}form.append(objLabel,obj);
-    const target=inputRow(form,"Target wave",String(state.optimizer.target_wave),"number");
+    const target=state.optimizer.objective==="Chance to clear target"?inputRow(form,"Target wave",String(state.optimizer.target_wave),"number"):null;
     const pre=inputRow(form,"Pre-screen runs / candidate",String(state.optimizer.pre_screen_runs),"number");
-    const cutoff=inputRow(form,"Pre-screen cutoff (% of best)",String(state.optimizer.pre_screen_filter*100),"number");
+    const cutoff=inputRow(form,"Pre-screen cutoff (% of best)",editableNumber(state.optimizer.pre_screen_filter*100,6),"number");
     const screen=inputRow(form,"Screening runs / survivor",String(state.optimizer.screening_runs),"number");
     const final=inputRow(form,"Final runs / finalist",String(state.optimizer.finalist_runs),"number");
     const finalists=inputRow(form,"Finalists",String(state.optimizer.finalist_count),"number");
     const seed=inputRow(form,"Random seed",String(state.optimizer.seed),"number");
     const checks=el("div","checks");optimizer.appendChild(checks);
     const health=checkbox("Require at least one Health player",state.optimizer.require_health);const force=checkbox("Require at least one Force player",state.optimizer.require_force);checks.append(health.wrap,force.wrap);
-    const persist=()=>{state.optimizer.objective=obj.value as Gauntlet.Objective;state.optimizer.target_wave=Math.max(1,intValue(target,30));state.optimizer.pre_screen_runs=Math.max(1,intValue(pre,10));state.optimizer.pre_screen_filter=Gauntlet.clamp(numValue(cutoff,90)/100,0,1);state.optimizer.screening_runs=Math.max(1,intValue(screen,100));state.optimizer.finalist_runs=Math.max(1,intValue(final,3000));state.optimizer.finalist_count=Math.max(1,intValue(finalists,8));state.optimizer.seed=intValue(seed,12345);state.optimizer.require_health=health.input.checked;state.optimizer.require_force=force.input.checked;saveStateDebounced();};
-    [obj,target,pre,cutoff,screen,final,finalists,seed,health.input,force.input].forEach(x=>{x.addEventListener("change",persist);x.addEventListener("input",persist);});
+    const persist=()=>{state.optimizer.objective=obj.value as Gauntlet.Objective;if(target)state.optimizer.target_wave=Math.max(1,intValue(target,30));state.optimizer.pre_screen_runs=Math.max(1,intValue(pre,10));state.optimizer.pre_screen_filter=percentValue(cutoff,0.9);state.optimizer.screening_runs=Math.max(1,intValue(screen,100));state.optimizer.finalist_runs=Math.max(1,intValue(final,3000));state.optimizer.finalist_count=Math.max(1,intValue(finalists,8));state.optimizer.seed=intValue(seed,12345);state.optimizer.require_health=health.input.checked;state.optimizer.require_force=force.input.checked;saveStateDebounced();};
+    obj.addEventListener("change",()=>{persist();renderExperiment();});
+    [target,pre,cutoff,screen,final,finalists,seed,health.input,force.input].filter((x):x is HTMLInputElement=>x!==null).forEach(x=>{x.addEventListener("change",persist);x.addEventListener("input",persist);});
     const presets=el("div","preset-row");optimizer.appendChild(presets);presets.appendChild(el("span","","Run size:"));for(const name of ["Fast","Standard","Precise"]){const b=el("button","secondary small",name);b.onclick=()=>{const p=state.settings.run_presets[name];if(!p)return;state.optimizer.pre_screen_runs=p.pre_screen_runs;state.optimizer.screening_runs=p.screening_runs;state.optimizer.finalist_runs=p.finalist_runs;state.optimizer.finalist_count=p.finalist_count;saveStateNow();renderExperiment();};presets.appendChild(b);}
     optimizer.appendChild(el("p","muted","Pre-screening uses a handful of runs to cull clearly weak assignments by the relative cutoff. Survivors get the normal screen, then only the top finalists receive the large sample."));
   }
@@ -341,12 +429,12 @@ namespace GauntletWeb {
         <section id="help-profiles">
           <h2>Profiles</h2>
           <p>A profile describes one player or stand-in. Each profile can have its own movement speed, backpack size, role tiers, gather/process times, success chances, per-role double-gather chance, and per-role material-save chance.</p>
-          <p>Generic T0 through T11 profiles are included as convenient starting points. The built-in <strong>Clone</strong> automatically follows <strong>Me</strong>, except its movement speed is 90% of Me's speed.</p>
+          <p>Generic T0 through T11 profiles are included as convenient starting points. The built-in <strong>Clone</strong> automatically follows <strong>Me</strong>, except its movement speed is 90% of Me's speed. Other profiles can be dragged to reorder them; that order is saved in the browser.</p>
         </section>
 
         <section id="help-experiment">
           <h2>Experiment</h2>
-          <p>The Experiment tab defines the five participants in the raid and the optimization target. Slot 1 is special only for XP calculations: put the profile whose Fortify XP you care about there.</p>
+          <p>The Experiment tab defines the five participants in the raid and the optimization target. Slot 1 is special only for XP calculations: put the profile whose Fortify XP you care about there. Target wave is shown only when optimizing for chance to clear a target.</p>
           <p>The optimizer uses three stages. A tiny pre-screen removes clearly weak assignments, screening gives the survivors more runs, and the finalists receive the largest sample. Fast, Standard, and Precise presets control the amount of work.</p>
         </section>
 
@@ -409,15 +497,15 @@ namespace GauntletWeb {
     panel.appendChild(el("p","muted","These are model assumptions, not hidden constants. Change them freely for sensitivity tests."));
     const form=el("div","form-grid game-form");panel.appendChild(form);
     const fields:[keyof Gauntlet.GameConfig,string][]=[
-      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["raw_material_value_divisor","Raw material value divisor"],["max_wave","Simulation wave ceiling"]
+      ["fortress_node_distance","Fortress ↔ node distance (px)"],["gather_process_distance","Gather ↔ process distance (px)"],["gather_time_min","Minimum gather time (s)"],["gather_time_max","Maximum gather time (s)"],["prep_seconds","Prep time before wave 1 (s)"],["wave_interval","Wave interval (s)"],["combat_interval","Combat interval (s)"],["starting_stat","Starting army stat"],["incoming_constant","Incoming mitigation constant"],["outgoing_constant","Outgoing mitigation constant"],["lane_noise_per_wave","Lane-noise bound growth / wave"],["lane_noise_cap","Lane-noise maximum bound"],["health_base","Enemy health base coefficient"],["health_growth","Enemy health growth"],["health_milestone_mult","Enemy health × per milestone"],["health_milestone_every","Health milestone every N waves"],["attack_growth","Enemy attack growth"],["defense_per_wave","Enemy defense / wave"],["action_xp_base","Action XP base"],["action_xp_wave_slope","Action XP / wave"],["failure_xp_mult","Failure XP multiplier"],["completion_xp_power","Completion XP exponent"],["raw_material_value_divisor","Raw material value divisor"],["max_wave","Simulation wave ceiling"]
     ];
     const inputs=new Map<keyof Gauntlet.GameConfig,HTMLInputElement>();
     for(const [key,label] of fields){const inp=inputRow(form,label,String(state.game[key] as any),"number");inputs.set(key,inp);}
     const noise=checkbox("Randomize enemy Force allocation across lanes",state.game.use_lane_noise);panel.appendChild(noise.wrap);
-    const matsWrap=el("div","form-grid single-form");panel.appendChild(matsWrap);const mats=inputRow(matsWrap,"Processed material values T0…T10",state.game.material_values.join(","));panel.appendChild(el("p","muted","Comma-separated, e.g. 2,3,4,5,7,9,12,16,22,30,40"));
+    const matsWrap=el("div","form-grid single-form");panel.appendChild(matsWrap);const mats=inputRow(matsWrap,"Processed material values by tier (T0 onward)",state.game.material_values.join(","));panel.appendChild(el("p","muted",`Comma-separated. The number of entries sets the maximum profile tier; ${state.game.material_values.length} entries currently allow T0–T${maxProfileTier()}.`));
     const actions=el("div","actions");panel.appendChild(actions);const restore=el("button","secondary","Restore game-model defaults");const apply=el("button","primary","Apply game-model changes");const close=el("button","secondary","Close Game Model");close.onclick=closeGameModel;actions.append(restore,apply,close);
     restore.onclick=()=>{if(!confirm("Restore only Game model settings from factory defaults? Profiles and Experiment settings will be left unchanged."))return;state.game=Gauntlet.deepClone(factoryState.game);saveStateNow();renderGameModel();setStatus("Restored game-model defaults");};
-    apply.onclick=()=>{try{for(const [key] of fields){const inp=inputs.get(key)!;(state.game as any)[key]=(key==="health_milestone_every"||key==="max_wave")?intValue(inp):(numValue(inp));}state.game.use_lane_noise=noise.input.checked;const vals=mats.value.split(",").map(x=>Number(x.trim())).filter(Number.isFinite).map(Math.trunc);if(!vals.length)throw new Error("Material values cannot be empty");state.game.material_values=vals;saveStateNow();setStatus("Applied and saved game-model changes");}catch(err){alert(err instanceof Error?err.message:String(err));}};
+    apply.onclick=()=>{try{for(const [key] of fields){const inp=inputs.get(key)!;(state.game as any)[key]=(key==="health_milestone_every"||key==="max_wave")?intValue(inp):(numValue(inp));}if(!(state.game.gather_time_min>0)||state.game.gather_time_max<state.game.gather_time_min)throw new Error("Gather time limits must be positive, with maximum at least as large as minimum.");state.game.use_lane_noise=noise.input.checked;const vals=mats.value.split(",").map(x=>Number(x.trim())).filter(Number.isFinite).map(Math.trunc);if(!vals.length)throw new Error("Material values cannot be empty");state.game.material_values=vals;clampProfilesToGameModel();saveStateNow();renderProfiles();renderExperiment();setStatus("Applied and saved game-model changes");}catch(err){alert(err instanceof Error?err.message:String(err));}};
   }
 
   function snapshotState():Gauntlet.AppState{return Gauntlet.deepClone(state);}
@@ -492,12 +580,13 @@ namespace GauntletWeb {
     top.appendChild(el("div","card-title","Rankings"));
     bottom.appendChild(el("div","card-title","Selected result"));
 
-    const tableWrap=el("div","table-scroll");top.appendChild(tableWrap);const table=el("table","results-table");tableWrap.appendChild(table);const hr=el("tr");for(const h of ["#","Roles by slot","Mean cleared","Median","P(target+)","XP/run","XP/hour","Run sec","Overrun"])hr.appendChild(el("th","",h));table.appendChild(hr);
+    const showTarget=data.snapshot.optimizer.objective==="Chance to clear target";
+    const tableWrap=el("div","table-scroll");top.appendChild(tableWrap);const table=el("table","results-table");tableWrap.appendChild(table);const hr=el("tr");const headers=["#","Roles by slot","Mean cleared","Median",...(showTarget?["P(target+)"]:[]),"XP/run","XP/hour","Run duration","Overrun"];for(const h of headers)hr.appendChild(el("th","",h));table.appendChild(hr);
     const rows:HTMLTableRowElement[]=[];
     const detail=el("pre","result-detail");bottom.appendChild(detail);
     data.results.forEach((res,idx)=>{
       const m=res.metrics;const tr=el("tr",idx===data.selected?"selected":"") as HTMLTableRowElement;
-      const vals=[String(idx+1),res.roles.map((r,i)=>`${i+1}: ${r}`).join(" | "),fmt(m.mean_cleared,3),String(m.median_cleared),pct(m.target_probability),fmt(m.mean_xp_run,0),fmt(m.mean_xp_hour,0),fmt(m.mean_duration,1),pct(m.overrun_rate)];
+      const vals=[String(idx+1),res.roles.map((r,i)=>`${i+1}: ${r}`).join(" | "),fmt(m.mean_cleared,3),String(m.median_cleared),...(showTarget?[pct(m.target_probability)]:[]),fmt(m.mean_xp_run,0),fmt(m.mean_xp_hour,0),formatDuration(m.mean_duration),pct(m.overrun_rate)];
       vals.forEach((v,i)=>tr.appendChild(el("td",i===1?"assignment":"",v)));
       tr.onclick=()=>{data.selected=idx;rows.forEach((row,j)=>row.classList.toggle("selected",j===idx));updateResultDetail(detail,data.results[idx],data.snapshot);};
       rows.push(tr);table.appendChild(tr);
@@ -518,7 +607,7 @@ namespace GauntletWeb {
   }
   function updateResultDetail(pre:HTMLElement,res:Gauntlet.CandidateResult,snap:Gauntlet.AppState):void{
     const m=res.metrics;const lines:string[]=["ROLE ASSIGNMENT","---------------"];res.roles.forEach((role,i)=>lines.push(`Slot ${String(i+1).padEnd(3)} ${snap.party[i].profile_name.padEnd(18)}  ${role}`));
-    const metric=(label:string,val:string)=>`${(label+":").padEnd(22)}${val}`;lines.push("","SUMMARY","-------",metric("Runs",m.runs.toLocaleString()),metric("Mean cleared",m.mean_cleared.toFixed(4)),metric("Median cleared",String(m.median_cleared)),metric("Central 80%",`${m.p10_cleared} – ${m.p90_cleared}`),metric(`P(clear ${snap.optimizer.target_wave}+)`,pct(m.target_probability)),metric("Mean XP / run",fmt(m.mean_xp_run,1)),metric("Mean XP / hour",fmt(m.mean_xp_hour,1)),metric("Mean run duration",`${fmt(m.mean_duration,1)} s`),metric("HP-death rate",pct(m.hp_death_rate)),metric("Overrun rate",pct(m.overrun_rate)),"","WAVE DISTRIBUTION","-----------------");
+    const metric=(label:string,val:string)=>`${(label+":").padEnd(22)}${val}`;const summary=[metric("Runs",m.runs.toLocaleString()),metric("Mean cleared",m.mean_cleared.toFixed(4)),metric("Median cleared",String(m.median_cleared)),metric("Central 80%",`${m.p10_cleared} – ${m.p90_cleared}`)];if(snap.optimizer.objective==="Chance to clear target")summary.push(metric(`P(clear ${snap.optimizer.target_wave}+)`,pct(m.target_probability)));summary.push(metric("Mean XP / run",fmt(m.mean_xp_run,1)),metric("Mean XP / hour",fmt(m.mean_xp_hour,1)),metric("Mean run duration",formatDuration(m.mean_duration)),metric("HP-death rate",pct(m.hp_death_rate)),metric("Overrun rate",pct(m.overrun_rate)));lines.push("","SUMMARY","-------",...summary,"","WAVE DISTRIBUTION","-----------------");
     const waves=Object.keys(m.distribution).map(Number).sort((a,b)=>a-b);for(const w of waves){const count=m.distribution[w],bar="█".repeat(Math.min(50,Math.round(50*count/m.runs)));lines.push(`${String(w).padStart(3)}: ${(100*count/m.runs).toFixed(2).padStart(6)}%  ${bar}`);}
     lines.push("","FORTRESS STATS","--------------",metric("HP (current / max)",`${fmt(m.mean_final_current_hp,1)} / ${fmt(m.mean_final_max_hp,1)}`),metric("Melee force",fmt(m.mean_final_melee,1)),metric("Ranged force",fmt(m.mean_final_ranged,1)),metric("Magic force",fmt(m.mean_final_magic,1)),metric("Defense",fmt(m.mean_final_defense,1)));
     pre.textContent=lines.join("\n");
