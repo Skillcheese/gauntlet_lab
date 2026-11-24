@@ -1,5 +1,9 @@
 # Gauntlet Lab
 
+> **This is a fork.** Gauntlet Lab was created by **Aaron Mulder** ([@amulder87](https://github.com/amulder87)). The original project is at [amulder87/gauntlet_lab](https://github.com/amulder87/gauntlet_lab) and its hosted site is [amulder87.github.io/gauntlet_lab](https://amulder87.github.io/gauntlet_lab/). All credit for the simulator goes to him.
+>
+> This fork is used by [CheezWatch](https://github.com/Skillcheese/CheezWatch) and adds material save: a failed process can keep its raw resource for another attempt. It's distributed under the same license as the original (see `LICENSE`).
+
 Gauntlet Lab is a browser-based simulator and strategy optimizer for the **Gauntlet** minigame in [ScapeWatch](https://scapewatch.com/).
 
 It is designed to answer questions like:
