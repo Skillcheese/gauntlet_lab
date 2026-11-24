@@ -9,6 +9,8 @@ namespace Gauntlet {
     double_gather: number;
     process_time: number;
     process_success: number;
+    // Chance a failed process keeps its raw resource for another attempt.
+    material_save?: number;
   }
 
   export interface PlayerProfile {
@@ -153,7 +155,7 @@ namespace Gauntlet {
     const vals: (string|number)[] = [round9(profile.movement_speed), profile.backpack_size];
     for (const role of ROLES) {
       const rs = profile.role_stats[role];
-      vals.push(rs.tier, round9(rs.gather_time), round9(rs.gather_success), round9(rs.double_gather), round9(rs.process_time), round9(rs.process_success));
+      vals.push(rs.tier, round9(rs.gather_time), round9(rs.gather_success), round9(rs.double_gather), round9(rs.process_time), round9(rs.process_success), round9(rs.material_save ?? 0));
     }
     return JSON.stringify(vals);
   }

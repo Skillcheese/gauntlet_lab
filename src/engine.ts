@@ -54,6 +54,7 @@ namespace Gauntlet {
     const doubleP = clamp(rs.double_gather, 0, 1);
     const gatherP = clamp(rs.gather_success, 0, 1);
     const processP = clamp(rs.process_success, 0, 1);
+    const saveP = clamp(rs.material_save ?? 0, 0, 0.99);
     const gatherTime = Math.max(1e-6, rs.gather_time);
     const processTime = Math.max(1e-6, rs.process_time);
     const xpEvents: ActionXPEvent[] = [];
@@ -80,6 +81,7 @@ namespace Gauntlet {
       const success = rng.random() < processP;
       if (captureXp) xpEvents.push({time: t, success});
       if (success) processed += 1;
+      else if (saveP > 0 && rng.random() < saveP) i--;
     }
 
     t += cfg.fortress_node_distance / speed;
