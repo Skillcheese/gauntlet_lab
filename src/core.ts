@@ -11,6 +11,13 @@ namespace Gauntlet {
     process_success: number;
     // Chance a failed process keeps its raw resource for another attempt.
     material_save?: number;
+    // Chance a gathered item is processed on the spot (Globes of Skills): it
+    // still fills a bag slot but skips the processing step.
+    auto_process?: number;
+    // Chance a gathered item skips the bag and lands in the army stat at
+    // once, worth a full deposit (Globes of Skills; the game's Constants.js
+    // says "in the Fortress: straight into the army stats").
+    auto_bank?: number;
   }
 
   export interface PlayerProfile {
@@ -155,7 +162,7 @@ namespace Gauntlet {
     const vals: (string|number)[] = [round9(profile.movement_speed), profile.backpack_size];
     for (const role of ROLES) {
       const rs = profile.role_stats[role];
-      vals.push(rs.tier, round9(rs.gather_time), round9(rs.gather_success), round9(rs.double_gather), round9(rs.process_time), round9(rs.process_success), round9(rs.material_save ?? 0));
+      vals.push(rs.tier, round9(rs.gather_time), round9(rs.gather_success), round9(rs.double_gather), round9(rs.process_time), round9(rs.process_success), round9(rs.material_save ?? 0), round9(rs.auto_process ?? 0), round9(rs.auto_bank ?? 0));
     }
     return JSON.stringify(vals);
   }

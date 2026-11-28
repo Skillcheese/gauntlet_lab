@@ -200,12 +200,12 @@ namespace GauntletWeb {
     const bagInput=inputRow(top,"Backpack size",String(profile.backpack_size),"number",readonly);
 
     const table=el("table","stats-table");fields.appendChild(table);
-    const head=el("thead");const hr=el("tr");for(const h of ["Role","Tier","Gather sec","Gather success %","Double gather %","Process sec","Process success %","Material save %"]){hr.appendChild(el("th","",h));}head.appendChild(hr);table.appendChild(head);
+    const head=el("thead");const hr=el("tr");for(const h of ["Role","Tier","Gather sec","Gather success %","Double gather %","Process sec","Process success %","Material save %","Auto-process %","Auto-bank %"]){hr.appendChild(el("th","",h));}head.appendChild(hr);table.appendChild(head);
     const body=el("tbody");table.appendChild(body);
     const roleInputs=new Map<Gauntlet.Role,HTMLInputElement[]>();
     for(const role of Gauntlet.ROLES){
       const rs=profile.role_stats[role];const tr=el("tr");tr.appendChild(el("td","role-name",role));
-      const vals=[String(rs.tier),String(rs.gather_time),String(rs.gather_success*100),String(rs.double_gather*100),String(rs.process_time),String(rs.process_success*100),String((rs.material_save??0)*100)];
+      const vals=[String(rs.tier),String(rs.gather_time),String(rs.gather_success*100),String(rs.double_gather*100),String(rs.process_time),String(rs.process_success*100),String((rs.material_save??0)*100),String((rs.auto_process??0)*100),String((rs.auto_bank??0)*100)];
       const arr:HTMLInputElement[]=[];
       vals.forEach((v,i)=>{const td=el("td");const inp=el("input","input compact") as HTMLInputElement;inp.type="number";inp.value=v;inp.disabled=readonly;inp.step=i===0?"1":"any";td.appendChild(inp);tr.appendChild(td);arr.push(inp);});body.appendChild(tr);roleInputs.set(role,arr);
     }
@@ -220,7 +220,7 @@ namespace GauntletWeb {
       try{
         const old=selectedProfile;let newName=nameInput.value.trim();if(!newName)throw new Error("Name cannot be empty");if(newName!==old&&state.profiles[newName])throw new Error("A profile with that name already exists");
         const p=Gauntlet.deepClone(profile);p.name=newName;p.movement_speed=Math.round(numValue(speedInput,p.movement_speed)*10)/10;p.backpack_size=Math.max(1,intValue(bagInput,p.backpack_size));
-        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.trunc(numValue(a[0]))),gather_time:numValue(a[1]),gather_success:Gauntlet.clamp(numValue(a[2])/100,0,1),double_gather:Gauntlet.clamp(numValue(a[3])/100,0,1),process_time:numValue(a[4]),process_success:Gauntlet.clamp(numValue(a[5])/100,0,1),material_save:Gauntlet.clamp(numValue(a[6])/100,0,0.99)};}
+        for(const role of Gauntlet.ROLES){const a=roleInputs.get(role)!;p.role_stats[role]={tier:Math.max(0,Math.trunc(numValue(a[0]))),gather_time:numValue(a[1]),gather_success:Gauntlet.clamp(numValue(a[2])/100,0,1),double_gather:Gauntlet.clamp(numValue(a[3])/100,0,1),process_time:numValue(a[4]),process_success:Gauntlet.clamp(numValue(a[5])/100,0,1),material_save:Gauntlet.clamp(numValue(a[6])/100,0,0.99),auto_process:Gauntlet.clamp(numValue(a[7])/100,0,1),auto_bank:Gauntlet.clamp(numValue(a[8])/100,0,0.99)};}
         if(newName!==old){delete state.profiles[old];for(const slot of state.party)if(slot.profile_name===old)slot.profile_name=newName;}
         state.profiles[newName]=p;selectedProfile=newName;Gauntlet.cloneFromMe(state);saveStateNow();renderProfiles();renderExperiment();setStatus(`Applied and saved profile: ${newName}`);
       }catch(err){alert(err instanceof Error?err.message:String(err));}

@@ -47,7 +47,7 @@ namespace Gauntlet {
     rng: RandomSource,
     startTime: number,
     captureXp: boolean,
-  ): { deposit: DepositEvent; xpEvents: ActionXPEvent[] } {
+  ): { deposit: DepositEvent; banked: DepositEvent[]; xpEvents: ActionXPEvent[] } {
     const rs = profile.role_stats[role];
     const speed = Math.max(1e-9, profile.movement_speed);
     const bagSize = Math.max(1, Math.trunc(profile.backpack_size));
@@ -55,27 +55,37 @@ namespace Gauntlet {
     const gatherP = clamp(rs.gather_success, 0, 1);
     const processP = clamp(rs.process_success, 0, 1);
     const saveP = clamp(rs.material_save ?? 0, 0, 0.99);
+    const autoP = clamp(rs.auto_process ?? 0, 0, 1);
+    const bankP = clamp(rs.auto_bank ?? 0, 0, 0.99);
+    const value = materialValue(profile, role, cfg);
+    const banked: DepositEvent[] = [];
     const gatherTime = Math.max(1e-6, rs.gather_time);
     const processTime = Math.max(1e-6, rs.process_time);
     const xpEvents: ActionXPEvent[] = [];
     let t = startTime + cfg.fortress_node_distance / speed;
 
     let raw = 0;
-    while (raw < bagSize) {
+    let ready = 0;
+    // The game rolls auto-process before auto-bank. A banked item never
+    // takes a bag slot.
+    const take = (): void => {
+      const done = autoP > 0 && rng.random() < autoP;
+      if (bankP > 0 && rng.random() < bankP) banked.push({time: t, role, amount: value});
+      else if (done) ready += 1;
+      else raw += 1;
+    };
+    while (raw + ready < bagSize) {
       t += gatherTime;
       const success = rng.random() < gatherP;
       if (captureXp) xpEvents.push({time: t, success});
       if (success) {
-        raw += 1;
-        if (raw < bagSize && rng.random() < doubleP) {
-          raw += 1;
-          if (raw > bagSize) raw = bagSize;
-        }
+        take();
+        if (raw + ready < bagSize && rng.random() < doubleP) take();
       }
     }
 
     t += cfg.gather_process_distance / speed;
-    let processed = 0;
+    let processed = ready;
     for (let i = 0; i < raw; i++) {
       t += processTime;
       const success = rng.random() < processP;
@@ -86,12 +96,14 @@ namespace Gauntlet {
 
     t += cfg.fortress_node_distance / speed;
     return {
-      deposit: {time: t, role, amount: processed * materialValue(profile, role, cfg)},
+      deposit: {time: t, role, amount: processed * value},
+      banked,
       xpEvents,
     };
   }
 
-  interface HeapDeposit extends DepositEvent { idx: number; }
+  // `banked` deposits come from auto-bank and don't end a loop.
+  interface HeapDeposit extends DepositEvent { idx: number; banked?: boolean; }
   class DepositHeap {
     private data: HeapDeposit[] = [];
     get length(): number { return this.data.length; }
@@ -160,6 +172,7 @@ namespace Gauntlet {
     for (let idx = 0; idx < profiles.length; idx++) {
       const one = generateOneLoop(profiles[idx], roles[idx], cfg, workerRngs[idx], 0, idx === realIndex);
       heap.push({...one.deposit, idx});
+      for (const b of one.banked) heap.push({...b, idx, banked: true});
       if (idx === realIndex) realXpEvents.push(...one.xpEvents);
     }
 
@@ -187,8 +200,10 @@ namespace Gauntlet {
         const ev = heap.pop()!;
         stats[ev.role] += ev.amount;
         if (ev.role === "Health") currentHp += ev.amount;
+        if (ev.banked) continue;
         const one = generateOneLoop(profiles[ev.idx], roles[ev.idx], cfg, workerRngs[ev.idx], ev.time, ev.idx === realIndex);
         heap.push({...one.deposit, idx: ev.idx});
+        for (const b of one.banked) heap.push({...b, idx: ev.idx, banked: true});
         if (ev.idx === realIndex) realXpEvents.push(...one.xpEvents);
       }
     };
